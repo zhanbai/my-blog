@@ -53,6 +53,6 @@ JavaScript 的成功是其在浏览器中的特殊地位的必然结果，还是
 
 JavaScript 的未来延续了快速发展的道路。我们在 Web 服务器上可以运行 JavaScript（Node.js），并且可以构建桌面应用（Electron）。进一步的发展，如 Typescript 可以编译成纯 JavaScript，为开发人员提供了构建大型应用的工具。而且在未来，WebAssembly 可能会彻底打破语言的限制，让开发者可以搭载 JavaScript 引擎来使用他们任何想要使用的更高级别的语言。
 
-Brendan Eich 将 JavaScript 放入了网景浏览器，而我们把整个世界放入了浏览器，构成了现代网络。
+需要承认的是，JavaScript 是伟大的语言之一。Brendan Eich 将 JavaScript 放入了网景浏览器，而我们把整个世界放入了浏览器，构成了现代网络。
 
 
