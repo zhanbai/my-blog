@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="description" content="互联网开发，个人技术随想。">
+
+
+    <meta name="keywords" content="展白，展小白，博客，技术，随想。">
+
+
+<title>淘客多客之小程序实现入门 | 展小白的博客 | Zhan Xiaobai&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">展小白的博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">展小白的博客</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">展开目录</a>
+        <a onclick="go_top()">返回顶部</a>
+        <a onclick="go_bottom()">转到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "合并目录"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "展开目录"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">淘客多客之小程序实现入门</h1>
+            
+                <div class="post-meta">
+                    
+                        作者: <a itemprop="author" rel="author" href="/">展小白</a>
+                    
+
+                    
+                        <span class="post-time">
+                        发布于: <a href="#">八月 6, 2018&nbsp;&nbsp;18:49:35</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    分类:
+                            
+                                <a href="/categories/技术/">技术</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>现如今，互联网用户的流量成本越来越高，微信用户流量高，用户成本低，带动了社交电商的发展。作为一种新的开放能力，小程序可以被快速开发，可以在微信内被便捷地获取和传播，同时具有出色的使用体验，天然适合于淘客、多客等电商的推广。</p>
+<p>本教程旨在全面讲解如何通过小程序实现淘客、多客，帮助有志于淘客、多客小程序开发的个人开发者快速入门。</p>
+<h3 id="一些需要了解的概念"><a href="#一些需要了解的概念" class="headerlink" title="一些需要了解的概念"></a>一些需要了解的概念</h3><p><strong>淘宝客应用推广</strong>是指使用淘宝客的商品、店铺、活动及订单等信息输出接口和链接转换接口，可以开发出各类面向消费者的应用，为消费者提供导购服务。消费者通过淘宝客拥有的导购服务在淘宝或天猫购物后，可以按照卖家设定的佣金比例获得淘宝客佣金收益。</p>
+<p><strong>淘宝 PID</strong> 是对应每个账户的代码，用于识别不同的淘宝客。mm 后面带 3 串数字的样式，mm_账号id_推广渠道id_推广位id。</p>
+<p><strong>淘口令</strong>是一种字符串，被复制以后，打开手机淘宝可以跳转到对应的商品或者优惠券。</p>
+<p><strong>多多客应用推广</strong>是指使用多多客的商品、店铺、活动及订单等信息输出接口和链接转换接口，可以开发出各类面向消费者的应用，为消费者提供导购服务。消费者通过多多客应用的导购服务在拼多多购物后，可以按照卖家设定的佣金比例获得多多客佣金收益。</p>
+<p><strong>多多客 PID</strong> 是对应每个账户的代码，用于识别不同的多多客。形如：81_123213 的字符串。</p>
+<h3 id="用到的技术栈"><a href="#用到的技术栈" class="headerlink" title="用到的技术栈"></a>用到的技术栈</h3><p>后端：</p>
+<ul>
+<li><a href="https://lumen.laravel.com/" target="_blank" rel="noopener">Lumen</a>，为速度而生的 Laravel 框架，为 Web 艺术家创造的框架，简洁、优雅。</li>
+<li><a href="https://www.mysql.com/" target="_blank" rel="noopener">MySQL</a>，最流行的关系型数据库管理系统之一，在 WEB 应用方面，是最好的 RDBMS (Relational Database Management System，关系数据库管理系统) 应用软件。</li>
+</ul>
+<p>前端：</p>
+<ul>
+<li><a href="https://mp.weixin.qq.com/cgi-bin/wx" target="_blank" rel="noopener">小程序</a>，一种新的开放能力平台，来自于微信。</li>
+</ul>
+<h2 id="淘客接口实现"><a href="#淘客接口实现" class="headerlink" title="淘客接口实现"></a>淘客接口实现</h2><h3 id="申请淘宝客-API-权限"><a href="#申请淘宝客-API-权限" class="headerlink" title="申请淘宝客 API 权限"></a>申请淘宝客 API 权限</h3><p>从淘宝申请相关账号和权限，操作流程：</p>
+<ul>
+<li>注册开发者身份，使用淘宝账号登录<a href="http://open.taobao.com/" target="_blank" rel="noopener">淘宝开发平台</a>，通过身份验证后，即可成为开发者；</li>
+<li>创建验证网站，在<a href="https://pub.alimama.com/" target="_blank" rel="noopener">淘宝联盟</a> - 推广管理 - 网站管理里申请网站接入，通过网站域名验证后，即可获得 APP 证书和初级的淘宝客 API 调用权限。</li>
+</ul>
+<h3 id="Lumen-集成淘宝-SDK"><a href="#Lumen-集成淘宝-SDK" class="headerlink" title="Lumen 集成淘宝 SDK"></a>Lumen 集成淘宝 SDK</h3><p>淘宝官方提供了多种编程语言的服务端 SDK，包括：PHP、Java、Python、.NET、Metadata、C、NodeJS。推荐直接使用，不用自己再封装。因为我们使用的是 Lumen 框架，为了方便，我们使用 Composer 包 <a href="https://packagist.org/packages/orzcc/taobao-top-client" target="_blank" rel="noopener">orzcc/taobao-top-client</a>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ composer require orzcc/taobao-top-client	// Lumen 集成淘宝 SDK</span><br></pre></td></tr></table></figure>
+
+<h3 id="实现一些必须的接口"><a href="#实现一些必须的接口" class="headerlink" title="实现一些必须的接口"></a>实现一些必须的接口</h3><p>对淘客商品、类目等数据的处理有两种方案：</p>
+<ul>
+<li><strong>全量存储方案</strong>，将数据通过接口存储到自己的数据库，然后再通过接口查询返回到客户端展示；</li>
+<li><strong>部分存储方案</strong>，只存储部分关键性查询信息(比如：类目)，直接将淘宝返回信息进行处理即返回给客户端展示。</li>
+</ul>
+<p>这两种方案，都实现过，也踩过坑，对于个人开发者，推荐第二种方案，优势有几点：</p>
+<ul>
+<li>数据一致性有保证，因为数据是直接从淘宝实时查询返回的，不用考虑价格、优惠券数量的变更等；</li>
+<li>商品排序良好，淘宝提供多种排序方式，减少自己排序算法的研发投入；</li>
+<li>关键词搜索良好，直接使用淘宝的搜索，效率也是高的，保证了结果的准确性，不需要自己考虑分词、关键词匹配等;</li>
+<li>对数据库的要求低，数据库只是存储一些查询的关键性配置信息，不会有什么压力，维护成本低。</li>
+<li>劣势主要是不够灵活，可自定义的空间少，另外不便于做复杂的业务类型。但作为个人开发者，人力资源是有限的，维护起来也吃力。</li>
+</ul>
+<p>确认好方案，接下来要做的就是对淘宝 SDK 相关接口进行封装，实现一些符合我们业务需求的接口。</p>
+<p>还记得上面我们获得的 APP 证书吗？会有两个值 App Key 和 App Secret，添加到 Lumen 项目的 <code>.env</code> 配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">TB_APP_KEY=xxx</span><br><span class="line">TB_APP_SECRET=xxx</span><br><span class="line">TB_ADZONE_ID=xxx</span><br></pre></td></tr></table></figure>
+
+<p><code>TB_ADZONE_ID</code> 是指 <code>adzone_id</code> 就是我们上面提到的推广位 ID。它的创建在淘宝联盟网站，找到一个商品，点“立即推广”就可以创建。</p>
+<h4 id="建立商品类目"><a href="#建立商品类目" class="headerlink" title="建立商品类目"></a>建立商品类目</h4><p>这个是我们后面筛选不同类目商品的关键，这里会用到接口 <a href="http://open.taobao.com/api.htm?docId=122&docType=2" target="_blank" rel="noopener">taobao.itemcats.get</a> (获取后台供卖家发布商品的标准商品类目)，因为作为初级淘宝客是没有这个接口的权限的，不过不要紧，我们可以用官方的 <a href="http://open.taobao.com/doc.htm?apiName=taobao.itemcats.get&docId=1&docType=15" target="_blank" rel="noopener">API 测试工具</a>自动配置的 AppKey 来调用获取。</p>
+<p>接口返回结果，支持多种格式，我们选择 JSON 格式。结果里有这么几个关键字段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cid	// 商品所属类目ID</span><br><span class="line">parent_cid	// 父类目ID=0时，代表的是一级的类目</span><br><span class="line">name 	// 类目名称</span><br></pre></td></tr></table></figure>
+
+<p>这里我们最需要其实是 cid，商品类目的筛选是通过这个字段。因为支持多个目录的筛选，我们可以整理规划出我们自己的类目，多个 cid 以英文 , 隔开。存储到数据库表 tk_opts 待用。</p>
+<p>封装一个自己的商品类目接口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 商品类目列表</span><br><span class="line">public function optsList()</span><br><span class="line">&#123;</span><br><span class="line">    $res = TKOpts::select()</span><br><span class="line">        -&gt;get()</span><br><span class="line">        -&gt;toArray();</span><br><span class="line"></span><br><span class="line">    return response()-&gt;json([&apos;code&apos; =&gt; 200, &apos;data&apos; =&gt; $res, &apos;msg&apos; =&gt; &apos;操作成功&apos;]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="商品物料搜索"><a href="#商品物料搜索" class="headerlink" title="商品物料搜索"></a>商品物料搜索</h4><p>这里用到接口是 <a href="http://open.taobao.com/api.htm?docId=35896&docType=2&scopeId=11655" target="_blank" rel="noopener">taobao.tbk.dg.material.optional</a>（通用物料搜索API【导购】），通过分页的形式，获取海量淘宝商品物料。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">use TopClient\TopClient;</span><br><span class="line">use TopClient\request\TbkDgMaterialOptionalRequest;</span><br><span class="line"></span><br><span class="line">// 省略部分代码</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">// 通用物料搜索 API（导购）</span><br><span class="line">public function tkDgMaterialOptional($options)</span><br><span class="line">&#123;</span><br><span class="line">	// 必填参数的判断</span><br><span class="line">	...</span><br><span class="line"></span><br><span class="line">	$c = new TopClient();</span><br><span class="line">    $c-&gt;appkey = $this-&gt;appKey;</span><br><span class="line">    $c-&gt;secretKey = $this-&gt;appSecret;</span><br><span class="line">    $c-&gt;format = &apos;json&apos;;	// 定义返回数据格式 JSON</span><br><span class="line">    $req = new TbkDgMaterialOptionalRequest();</span><br><span class="line"></span><br><span class="line">    $req-&gt;setAdzoneId($options[&apos;adzone_id&apos;]);</span><br><span class="line"></span><br><span class="line">    // 可选参数的判断添加</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    $resp = $c-&gt;execute($req);</span><br><span class="line"></span><br><span class="line">    // 对结果做一些符合业务需要的处理并返回</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>筛选会用到的几个关键参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">q 	// 查询词</span><br><span class="line">cat // 后台类目 ID，用 , 分割，最大 10 个，该 ID 可以通过 taobao.itemcats.get 接口获取到</span><br><span class="line">adzone_id 	// mm_xxx_xxx_xxx 的第三位</span><br><span class="line">has_coupon	// 是否有优惠券，设置为 true 表示该商品有优惠券，设置为 false 或不设置表示不判断这个属性</span><br><span class="line">sort	// 排序_des（降序），排序_asc（升序），销量（total_sales），淘客佣金比率（tk_rate）， 累计推广量（tk_total_sales），总支出佣金（tk_total_commi），价格（price）</span><br></pre></td></tr></table></figure>
+
+<h4 id="获取好券清单"><a href="#获取好券清单" class="headerlink" title="获取好券清单"></a>获取好券清单</h4><p>因为通用物料接口传参，查询词和类目 ID 必须有一个，所以不太适合作为一个综合类目展示。恰好淘宝提供另外一个接口 <a href="http://open.taobao.com/api.htm?docId=29821&docType=2&scopeId=11655" target="_blank" rel="noopener">taobao.tbk.dg.item.coupon.get</a>（好券清单API【导购】），可以支持支持同时不传查询词和类目 ID，通过分页的形式获取好券清单。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">use TopClient\TopClient;</span><br><span class="line">use TopClient\request\TbkDgItemCouponGetRequest;</span><br><span class="line"></span><br><span class="line">// 省略部分代码</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">// 好券清单 API（导购）</span><br><span class="line">public function tkDgItemCouponGet($options)</span><br><span class="line">&#123;</span><br><span class="line">	// 必填参数的判断</span><br><span class="line">	...</span><br><span class="line"></span><br><span class="line">	$c = new TopClient();</span><br><span class="line">    $c-&gt;appkey = $this-&gt;appKey;</span><br><span class="line">    $c-&gt;secretKey = $this-&gt;appSecret;</span><br><span class="line">    $c-&gt;format = &apos;json&apos;;	// 定义返回数据格式 JSON</span><br><span class="line">    $req = new TbkDgItemCouponGetRequest();</span><br><span class="line"></span><br><span class="line">    $req-&gt;setAdzoneId($options[&apos;adzone_id&apos;]);</span><br><span class="line"></span><br><span class="line">    // 可选参数的判断添加</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    $resp = $c-&gt;execute($req);</span><br><span class="line"></span><br><span class="line">    // 对结果做一些符合业务需要的处理并返回</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当后台类目和查询词均不指定的时候，最多出 10000 个结果，即 page_no*page_size 不能超过 10000；当指定类目或关键词的时候，则最多出 100 个结果。我们这里把它作为综合类目，所以不指定。</p>
+<h4 id="获取商品详情"><a href="#获取商品详情" class="headerlink" title="获取商品详情"></a>获取商品详情</h4><p>通过接口 <a href="http://open.taobao.com/api.htm?docId=24518&docType=2&scopeId=11655" target="_blank" rel="noopener">taobao.tbk.item.info.get</a>（淘宝客商品详情【简版】）获取商品详情，用于单个商品页面数据的展示。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">use TopClient\TopClient;</span><br><span class="line">use TopClient\request\TbkItemInfoGetRequest;</span><br><span class="line"></span><br><span class="line">// 省略部分代码</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">// 淘宝客商品详情（简版）</span><br><span class="line">public function tkItemInfoGet($options)</span><br><span class="line">&#123;</span><br><span class="line">	// 必填参数的判断</span><br><span class="line">	...</span><br><span class="line"></span><br><span class="line">	$c = new TopClient();</span><br><span class="line">    $c-&gt;appkey = $this-&gt;appKey;</span><br><span class="line">    $c-&gt;secretKey = $this-&gt;appSecret;</span><br><span class="line">    $c-&gt;format = &apos;json&apos;;	// 定义返回数据格式 JSON</span><br><span class="line">    $req = new TbkItemInfoGetRequest();</span><br><span class="line">    $req-&gt;setFields(&apos;num_iid,title,pict_url,small_images,reserve_price,zk_final_price,user_type,provcity,item_url&apos;);</span><br><span class="line">    $req-&gt;setNumIids($options[&apos;num_iids&apos;]);</span><br><span class="line"></span><br><span class="line">    $resp = $c-&gt;execute($req);</span><br><span class="line"></span><br><span class="line">    // 对结果做一些符合业务需要的处理并返回</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="生成淘口令"><a href="#生成淘口令" class="headerlink" title="生成淘口令"></a>生成淘口令</h4><p>通过接口 <a href="http://open.taobao.com/api.htm?docId=31127&docType=2&scopeId=11655" target="_blank" rel="noopener">taobao.tbk.tpwd.create</a>（ 淘宝客淘口令) 生成商品或优惠券的淘口令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">use TopClient\TopClient;</span><br><span class="line">use TopClient\request\TbkTpwdCreateRequest;</span><br><span class="line"></span><br><span class="line">// 省略部分代码</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">// 淘宝客淘口令（免费）</span><br><span class="line">public function tkTpwdCreate($options)</span><br><span class="line">&#123;</span><br><span class="line">	// 必填参数的判断</span><br><span class="line">	...</span><br><span class="line"></span><br><span class="line">	$c = new TopClient();</span><br><span class="line">    $c-&gt;appkey = $this-&gt;appKey;</span><br><span class="line">    $c-&gt;secretKey = $this-&gt;appSecret;</span><br><span class="line">    $c-&gt;format = &apos;json&apos;;	// 定义返回数据格式 JSON</span><br><span class="line">    $req = new TbkTpwdCreateRequest();</span><br><span class="line">    $req-&gt;setText($options[&apos;text&apos;]);	// 口令弹框内容</span><br><span class="line">    $req-&gt;setUrl($options[&apos;url&apos;]);	// 口令跳转目标页</span><br><span class="line"></span><br><span class="line">    // 可选参数的判断添加</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    $resp = $c-&gt;execute($req);</span><br><span class="line"></span><br><span class="line">    // 对结果做一些符合业务需要的处理并返回</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="推荐搜索词"><a href="#推荐搜索词" class="headerlink" title="推荐搜索词"></a>推荐搜索词</h4><p>通过创建表 tk_recommend_search_words 可以存储一些推荐客户搜索的关键词，这个表的数据来源有两个，一是用户搜索，二是自己定义。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 获取多客推荐搜索词</span><br><span class="line">public function getSearchKeyWord()</span><br><span class="line">&#123;</span><br><span class="line">    $res = TKRecommendSearchWords::select()-&gt;get()-&gt;toArray();</span><br><span class="line"></span><br><span class="line">    return response()-&gt;json([&apos;code&apos; =&gt; 200, &apos;data&apos; =&gt; $res, &apos;msg&apos; =&gt; &apos;操作成功&apos;]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过以上这些接口，就可以满足我们后续小程序代码的基本业务需求。</p>
+<h2 id="多客接口实现"><a href="#多客接口实现" class="headerlink" title="多客接口实现"></a>多客接口实现</h2><h3 id="申请多多客-API-权限"><a href="#申请多多客-API-权限" class="headerlink" title="申请多多客 API 权限"></a>申请多多客 API 权限</h3><p>从拼多多申请相关账号和权限，操作流程：</p>
+<ul>
+<li>注册<a href="http://open.pinduoduo.com/" target="_blank" rel="noopener">拼多多开放平台</a>账号，并申请成为第三方开发者；</li>
+<li>在控制台——我的应用里创建多多客联盟应用，等待审核通过，获得 client_id；</li>
+<li>在<a href="http://ddjb.pinduoduo.com/" target="_blank" rel="noopener">多多进宝</a> —— API 权限里绑定 client_id，即可获得多多客 API 权限。</li>
+</ul>
+<h3 id="Lumen-集成多多客-API-准备"><a href="#Lumen-集成多多客-API-准备" class="headerlink" title="Lumen 集成多多客 API 准备"></a>Lumen 集成多多客 API 准备</h3><p>因为多多客官方没有提供相关 SDK，所以我们需要先封装一些基本的方法，方便后续具体 API 的调用。</p>
+<h4 id="签名方法"><a href="#签名方法" class="headerlink" title="签名方法"></a>签名方法</h4><p>实现一个签名方法，方便后续 API 调用验证签名。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// 生成 sign</span><br><span class="line">public function sign($options)</span><br><span class="line">&#123;</span><br><span class="line">    ksort($options);</span><br><span class="line">    $str = &apos;&apos;;</span><br><span class="line"></span><br><span class="line">    foreach ($options as $key =&gt; $value) &#123;</span><br><span class="line"></span><br><span class="line">        $str .= $key . $value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    $str = $this-&gt;clientSecret . $str . $this-&gt;clientSecret;</span><br><span class="line">    $str = md5($str);</span><br><span class="line">    $sign = strtoupper($str);</span><br><span class="line"></span><br><span class="line">    return $sign;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="HTTP-请求"><a href="#HTTP-请求" class="headerlink" title="HTTP 请求"></a>HTTP 请求</h4><p>封装一个 HTTP 请求方法，方便请求拼多多 API 接口。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// http 请求方法</span><br><span class="line">public function request($options)</span><br><span class="line">&#123;</span><br><span class="line">    $ch = curl_init($this-&gt;api);</span><br><span class="line">    curl_setopt($ch, CURLOPT_POST, true);</span><br><span class="line">    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);</span><br><span class="line">    curl_setopt($ch, CURLOPT_POSTFIELDS, $options);</span><br><span class="line"></span><br><span class="line">    $res = curl_exec($ch);</span><br><span class="line">    $res = json_decode($res, true);</span><br><span class="line"></span><br><span class="line">    return $res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="实现一些必须的接口-1"><a href="#实现一些必须的接口-1" class="headerlink" title="实现一些必须的接口"></a>实现一些必须的接口</h3><p>对多多客商品、类目等数据的处理我们同样采用类似处理淘宝客的方案，来实现一些符合我们业务需求的接口。</p>
+<p>我们在拼多多开发平台创建的多多客联盟应用审核通过后，会获得两个主要参数：client_id 和 client_secret，类似于淘宝客的 App Key 和 App Secret，同样的，我们添加到 Lumen 项目的 <code>.env</code> 配置文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DK_CLIENT_ID=xxx</span><br><span class="line">DK_CLIENT_SECRET=xxx</span><br><span class="line">DK_API=http://gw-api.pinduoduo.com/api/router</span><br><span class="line">DK_P_ID=xxx</span><br></pre></td></tr></table></figure>
+
+<p>DK_API 是指正式环境调用拼多多 API 地址，只支持 POST 请求。DK_P_ID 是指多多客 PID。</p>
+<h4 id="建立商品类目-1"><a href="#建立商品类目-1" class="headerlink" title="建立商品类目"></a>建立商品类目</h4><p>同样的这个是我们后面筛选不同类目商品的关键，这里我们通过接口 <a href="http://open.pinduoduo.com/#/apidocument/port?id=50" target="_blank" rel="noopener">pdd.goods.opt.get</a>（查询商品标签列表）获取一级的商品标签作为我们的类目。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 查询商品标签列表</span><br><span class="line">public function dkGoodsOptGet($options)</span><br><span class="line">&#123;</span><br><span class="line">    $options[&apos;client_id&apos;] = $this-&gt;clientId;</span><br><span class="line">    $options[&apos;timestamp&apos;] = time();</span><br><span class="line">    $options[&apos;type&apos;] = &apos;pdd.goods.opt.get&apos;;</span><br><span class="line">    $sign = $this-&gt;sign($options);</span><br><span class="line">    $options[&apos;sign&apos;] = $sign;</span><br><span class="line"></span><br><span class="line">    $res = $this-&gt;request($options);</span><br><span class="line"></span><br><span class="line">	// 对结果做一些符合业务需要的处理并返回</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当 $options[‘parent_opt_id’] 为 0 时，即为一级的商品标签。返回的结果中 opt_id 商品标签 ID 是后面筛选商品需要的字段。</p>
+<p>当然你也可以将标签做一些筛选整理存储本地数据库，再从本地数据库读取。</p>
+<h4 id="商品查询"><a href="#商品查询" class="headerlink" title="商品查询"></a>商品查询</h4><p>通过接口 <a href="http://open.pinduoduo.com/#/apidocument/port?id=28" target="_blank" rel="noopener">pdd.ddk.goods.search</a>（多多进宝商品查询）获取我们需要的商品列表。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 多多进宝商品查询</span><br><span class="line">public function dkGoodsSearch($options)</span><br><span class="line">&#123;</span><br><span class="line">    $options[&apos;client_id&apos;] = $this-&gt;clientId;</span><br><span class="line">    $options[&apos;timestamp&apos;] = time();</span><br><span class="line">    $options[&apos;type&apos;] = &apos;pdd.ddk.goods.search&apos;;</span><br><span class="line">    $sign = $this-&gt;sign($options);</span><br><span class="line">    $options[&apos;sign&apos;] = $sign;</span><br><span class="line"></span><br><span class="line">    $res = $this-&gt;request($options);</span><br><span class="line"></span><br><span class="line">	// 对结果做一些符合业务需要的处理并返回</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不传 $options[‘opt_id’] 获取的结果可以作为综合类目，反之可以筛选需要的类目。其它比较关键的参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">keyword 	// 商品关键词</span><br><span class="line">sort_type	// 排序方式，有 20 多种之多，非常丰富</span><br><span class="line">with_coupon	// 是否只返回优惠券的商品</span><br><span class="line">range_list	// 范围列表，根据不同维度筛选</span><br></pre></td></tr></table></figure>
+
+<p>另外，上述结果如果按照默认排序筛选，会获得与拼多多官方应用完全一致的排序结果。</p>
+<h4 id="商品查询详情"><a href="#商品查询详情" class="headerlink" title="商品查询详情"></a>商品查询详情</h4><p>通过接口 <a href="http://open.pinduoduo.com/#/apidocument/port?id=28" target="_blank" rel="noopener">pdd.ddk.goods.detail</a>（多多进宝商品详情查询）获取商品的详情，用于单个商品页面数据的展示。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// 多多进宝商品详情查询</span><br><span class="line">public function dkGoodsDetail($options)</span><br><span class="line">&#123;</span><br><span class="line">	// 必填参数的判断</span><br><span class="line">	...</span><br><span class="line"></span><br><span class="line">    $options[&apos;client_id&apos;] = $this-&gt;clientId;</span><br><span class="line">    $options[&apos;timestamp&apos;] = time();</span><br><span class="line">    $options[&apos;type&apos;] = &apos;pdd.ddk.goods.detail&apos;;</span><br><span class="line">    $sign = $this-&gt;sign($options);</span><br><span class="line">    $options[&apos;sign&apos;] = $sign;</span><br><span class="line"></span><br><span class="line">    $res = $this-&gt;request($options);</span><br><span class="line"></span><br><span class="line">	// 对结果做一些符合业务需要的处理并返回</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>参数 $options[‘goods_id_list’] 商品ID，仅支持单个查询。</p>
+<h4 id="生成小程序跳转地址"><a href="#生成小程序跳转地址" class="headerlink" title="生成小程序跳转地址"></a>生成小程序跳转地址</h4><p>拼多多支持其它小程序跳转到拼多多官方小程序进行微信的直接支付购买。这个也是淘客小程序不可能具有的便利优势。</p>
+<p>由于微信的限制，只有同个公众号下的小程序才能进行跳转，所以需要在自己的公众号下绑定自己的和拼多多的小程序。</p>
+<p>一个小程序可关联最多 500 个公众号，这个资源是有限的，不过我们拿到了一个名额，这个功能得以做下去。</p>
+<p>通过接口 <a href="http://open.pinduoduo.com/#/apidocument/port?id=28" target="_blank" rel="noopener">pdd.ddk.goods.promotion.url.generate</a>（多多进宝推广链接生成）可以生成我们需要的跳转地址。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// 生成小程序跳转地址</span><br><span class="line">public function dkGoodsPromotionUrlGenerate($options)</span><br><span class="line">&#123;</span><br><span class="line">	// 必填参数的判断</span><br><span class="line">	...</span><br><span class="line"></span><br><span class="line">    $options[&apos;client_id&apos;] = $this-&gt;clientId;</span><br><span class="line">    $options[&apos;timestamp&apos;] = time();</span><br><span class="line">    $options[&apos;type&apos;] = &apos;pdd.ddk.goods.promotion.url.generate&apos;;</span><br><span class="line">    $sign = $this-&gt;sign($options);</span><br><span class="line">    $options[&apos;sign&apos;] = $sign;</span><br><span class="line"></span><br><span class="line">    $res = $this-&gt;request($options);</span><br><span class="line"></span><br><span class="line">	// 对结果做一些符合业务需要的处理并返回</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>需要传参数 $options[‘goods_id_list’] 商品 ID，仅支持单个查询，参数 $options[‘generate_we_app’] 生成唤起小程序的关键参数，这个文档里是没有的，属于内部知道的参数。</p>
+<h4 id="获取主题列表"><a href="#获取主题列表" class="headerlink" title="获取主题列表"></a>获取主题列表</h4><p>拼多多官方运营人员会持续创建需要优质的主题活动，也支持自己创建，可以通过接口 <a href="http://open.pinduoduo.com/#/apidocument/port?id=28" target="_blank" rel="noopener">pdd.ddk.theme.list.get</a>（多多进宝主题列表查询）来获取。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 多多进宝主题列表查询</span><br><span class="line">public function dkThemeListGet($options)</span><br><span class="line">&#123;</span><br><span class="line">    $options[&apos;client_id&apos;] = $this-&gt;clientId;</span><br><span class="line">    $options[&apos;timestamp&apos;] = time();</span><br><span class="line">    $options[&apos;type&apos;] = &apos;pdd.ddk.theme.list.get&apos;;</span><br><span class="line">    $sign = $this-&gt;sign($options);</span><br><span class="line">    $options[&apos;sign&apos;] = $sign;</span><br><span class="line"></span><br><span class="line">    $res = $this-&gt;request($options);</span><br><span class="line"></span><br><span class="line">	// 对结果做一些符合业务需要的处理并返回</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>主题列表会包含：主题 ID、主题图片、主题名称、主题商品数量等字段，方便展示主题列表。</p>
+<h4 id="获取主题列表商品"><a href="#获取主题列表商品" class="headerlink" title="获取主题列表商品"></a>获取主题列表商品</h4><p>有了上述返回的主题 ID，我们就可以通过接口 <a href="http://open.pinduoduo.com/#/apidocument/port?id=28" target="_blank" rel="noopener">pdd.ddk.theme.goods.search</a>（多多进宝主题商品查询）获取主题含有的商品列表。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// 多多进宝主题商品查询</span><br><span class="line">public function dkThemeGoodsSearch($options)</span><br><span class="line">&#123;</span><br><span class="line">	// 必填参数的判断</span><br><span class="line">	...</span><br><span class="line"></span><br><span class="line">    $options[&apos;client_id&apos;] = $this-&gt;clientId;</span><br><span class="line">    $options[&apos;timestamp&apos;] = time();</span><br><span class="line">    $options[&apos;type&apos;] = &apos;pdd.ddk.theme.goods.search&apos;;</span><br><span class="line">    $sign = $this-&gt;sign($options);</span><br><span class="line">    $options[&apos;sign&apos;] = $sign;</span><br><span class="line"></span><br><span class="line">    $res = $this-&gt;request($options);</span><br><span class="line"></span><br><span class="line">	// 对结果做一些符合业务需要的处理并返回</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="推荐搜索词-1"><a href="#推荐搜索词-1" class="headerlink" title="推荐搜索词"></a>推荐搜索词</h4><p>通过创建表 dk_recommend_search_words 可以存储一些推荐客户搜索的关键词，这个表的数据来源有两个，一是用户搜索，二是自己定义。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 获取多客推荐搜索词</span><br><span class="line">public function getSearchKeyWord()</span><br><span class="line">&#123;</span><br><span class="line">    $res = DKRecommendSearchWords::select()-&gt;get()-&gt;toArray();</span><br><span class="line"></span><br><span class="line">    return response()-&gt;json([&apos;code&apos; =&gt; 200, &apos;data&apos; =&gt; $res, &apos;msg&apos; =&gt; &apos;操作成功&apos;]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过以上这些接口，就可以满足我们后续小程序代码的基本业务需求。</p>
+<h2 id="小程序实现"><a href="#小程序实现" class="headerlink" title="小程序实现"></a>小程序实现</h2><p>我们现在已经实现的小程序有两款，分别针对的是两种不同的数据存储方案，基于全量存储方案的 <code>好券优选lite</code> 小程序，这是一个淘客的小程序，这个不是我们的重点。我们主要说基于部分存储方案的 <code>优选小工具</code> 小程序。</p>
+<p><img src="http://img.zinaer.com/blog/writing/you_min_logo1.jpg!/fw/200" alt></p>
+<center>识别该小程序码查看该小程序</center>
+
+<p>这个小程序的初衷是汇聚一批好用的工具，所以严格意义不是一个单纯的淘客、多客小程序，不过里面关于淘客、多客的内容都完全可以独立出来做成一个小程序。</p>
+<h3 id="申请小程序"><a href="#申请小程序" class="headerlink" title="申请小程序"></a>申请小程序</h3><p>微信对于个人开发者开放的类目有限，我们这里选择 <code>工具-报价/比价</code> 或者 <code>工具-信息查询</code> 来进行小程序的申请，也是推荐的。</p>
+<p>原则上个人是不支持做电商类小程序的，尤其对于淘宝，微信是更不会通过申请的，所以为了提高申请通过率，以下一些技巧可以帮助你：</p>
+<ul>
+<li>小程序名称要明确，不要强行蹭热点，蹭关键词，不要有淘宝、天猫、内部券、优惠券等词；</li>
+<li>小程序介绍要与名称相关，不要风马牛不相及；</li>
+<li>小程序 logo 不要有淘宝、天猫、内部优惠券等词。</li>
+</ul>
+<p>不过我们毕竟是想要做淘客、多客的嘛，上述的一些信息，我们可以等小程序代码审核通过后，再进行修改，能不能通过就看运气了。</p>
+<h3 id="关键功能的实现"><a href="#关键功能的实现" class="headerlink" title="关键功能的实现"></a>关键功能的实现</h3><p>小程序申请下来了，我们就要进行代码方面的实现了。下面举例一些关键功能的实现，有些功能是淘客、多客通用的就不做区分说明了。</p>
+<h4 id="配置信息"><a href="#配置信息" class="headerlink" title="配置信息"></a>配置信息</h4><p>这里会针对小程序创建配置信息表 z_config，这个表会包含：</p>
+<ul>
+<li>开关，控制线上/审核，顾名思义，线上就是我们最终想展示给用户的版本，审核是展示给审核人员的版本；</li>
+<li>代码中不利于审核通过的信息存表；</li>
+<li>一个可能会改变的信息，方便不用发版就可以更改。</li>
+</ul>
+<p>不过为了便于拆分和管理，我这边会针对每个功能，比如：淘客、多客都创建单独的配置表。</p>
+<h4 id="在欢迎页面判断要展示的版本"><a href="#在欢迎页面判断要展示的版本" class="headerlink" title="在欢迎页面判断要展示的版本"></a>在欢迎页面判断要展示的版本</h4><p>给小程序添加了一个欢迎页面，有两个目的：一是可以用来展示一些宣传信息；二是在渲染这个页面时会从服务端取到配置信息，决定展示的版本。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// 决定展示的版本</span><br><span class="line">wx.request(&#123;</span><br><span class="line">  url: app.globalData.zinaerApi + &apos;/ztool/getConfig&apos;,</span><br><span class="line">  data: options,</span><br><span class="line">  method: &apos;POST&apos;,</span><br><span class="line">  success: function (res) &#123;</span><br><span class="line">    if (res.statusCode == 200 &amp;&amp; res.data.code == 200) &#123;</span><br><span class="line">      if (res.data.data.online == 1) &#123;</span><br><span class="line">        wx.switchTab(&#123;</span><br><span class="line">          url: &apos;../index/index&apos;,</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;</span><br><span class="line">      else &#123;</span><br><span class="line">        wx.navigateTo(&#123;</span><br><span class="line">          url: &apos;../zt/zt&apos;,</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>审核版本可以写一些简单的小工具，比如本小程序是一个 IP 地址信息查询的一个功能。</p>
+<h4 id="主题列表"><a href="#主题列表" class="headerlink" title="主题列表"></a>主题列表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// 获取主题列表</span><br><span class="line">wx.request(&#123;</span><br><span class="line">  url: app.globalData.zinaerApi + &apos;/dk/themeListGet&apos;,</span><br><span class="line">  data: options,</span><br><span class="line">  method: &apos;POST&apos;,</span><br><span class="line">  success: function (res) &#123;</span><br><span class="line">    if (res.statusCode == 200 &amp;&amp; res.data.code == 200) &#123;</span><br><span class="line">      self.setData(&#123;</span><br><span class="line">        swiperData: res.data.data.theme_list</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>可以使用分页参数取出几个，比如 5 个最新的主题作为首页的轮播滚动主题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">options[&apos;page&apos;] = 1</span><br><span class="line">options[&apos;page_size&apos;] = 5</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;swiper indicator-dots=&quot;&#123;&#123;indicatorDots&#125;&#125;&quot; autoplay=&quot;&#123;&#123;autoplay&#125;&#125;&quot; interval=&quot;&#123;&#123;interval&#125;&#125;&quot; duration=&quot;&#123;&#123;duration&#125;&#125;&quot;&gt;</span><br><span class="line">  &lt;block wx:key=&quot;&#123;&#123;id&#125;&#125;&quot; wx:for=&quot;&#123;&#123;swiperData&#125;&#125;&quot;&gt;</span><br><span class="line">    &lt;swiper-item&gt;</span><br><span class="line">      &lt;image src=&quot;&#123;&#123;item.image_url&#125;&#125;&quot; class=&quot;slide-image&quot; data-hi=&quot;&#123;&#123;item&#125;&#125;&quot; bindtap=&quot;openAlert&quot;/&gt;</span><br><span class="line">    &lt;/swiper-item&gt;</span><br><span class="line">  &lt;/block&gt;</span><br><span class="line">&lt;/swiper&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="工具列表"><a href="#工具列表" class="headerlink" title="工具列表"></a>工具列表</h4><p>创建了一个 z_data 工具数据表，用来存储不同的工具基础信息。这里主要分为两类，一种是程序内的，一种是跳转到其它小程序。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;view class=&quot;weui-panel__bd&quot; wx:key=&quot;&#123;&#123;item.id&#125;&#125;&quot; wx:for=&quot;&#123;&#123;zData&#125;&#125;&quot;&gt;</span><br><span class="line">  &lt;navigator wx:if=&quot;&#123;&#123;item.type == 1&#125;&#125;&quot; target=&quot;miniProgram&quot; app-id=&quot;&#123;&#123;item.content&#125;&#125;&quot; class=&quot;weui-media-box weui-media-box_appmsg&quot; hover-class=&quot;weui-cell_active&quot;&gt;</span><br><span class="line">    &lt;view class=&quot;weui-media-box__hd weui-media-box__hd_in-appmsg&quot;&gt;</span><br><span class="line">      &lt;image class=&quot;weui-media-box__thumb&quot; src=&quot;&#123;&#123;item.image_url&#125;&#125;&quot; /&gt;</span><br><span class="line">    &lt;/view&gt;</span><br><span class="line">    &lt;view class=&quot;weui-media-box__bd weui-media-box__bd_in-appmsg&quot;&gt;</span><br><span class="line">      &lt;view class=&quot;weui-media-box__title&quot;&gt;&#123;&#123;item.title&#125;&#125;&lt;/view&gt;</span><br><span class="line">      &lt;view class=&quot;weui-media-box__desc&quot;&gt;&#123;&#123;item.des&#125;&#125;&lt;/view&gt;</span><br><span class="line">    &lt;/view&gt;</span><br><span class="line">  &lt;/navigator&gt;</span><br><span class="line">  &lt;navigator wx:else url=&quot;&#123;&#123;item.content&#125;&#125;&quot; class=&quot;weui-media-box weui-media-box_appmsg&quot; hover-class=&quot;weui-cell_active&quot;&gt;</span><br><span class="line">    &lt;view class=&quot;weui-media-box__hd weui-media-box__hd_in-appmsg&quot;&gt;</span><br><span class="line">      &lt;image class=&quot;weui-media-box__thumb&quot; src=&quot;&#123;&#123;item.image_url&#125;&#125;&quot; /&gt;</span><br><span class="line">    &lt;/view&gt;</span><br><span class="line">    &lt;view class=&quot;weui-media-box__bd weui-media-box__bd_in-appmsg&quot;&gt;</span><br><span class="line">      &lt;view class=&quot;weui-media-box__title&quot;&gt;&#123;&#123;item.title&#125;&#125;&lt;/view&gt;</span><br><span class="line">      &lt;view class=&quot;weui-media-box__desc&quot;&gt;&#123;&#123;item.des&#125;&#125;&lt;/view&gt;</span><br><span class="line">    &lt;/view&gt;</span><br><span class="line">  &lt;/navigator&gt;</span><br><span class="line">&lt;/view&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="商品列表页面"><a href="#商品列表页面" class="headerlink" title="商品列表页面"></a>商品列表页面</h4><p>通过写好的接口获取第一页的数据，同时会将下一页的请求数据封装好 options，通过小程序的页面上拉触底事件的处理函数 <code>onReachBottom</code> 实现分页的不停加载。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">wx.request(&#123;</span><br><span class="line">  url: app.globalData.zinaerApi + &apos;/dk/goodsSearch&apos;,</span><br><span class="line">  data: options,</span><br><span class="line">  method: &apos;POST&apos;,</span><br><span class="line">  success: function (res) &#123;</span><br><span class="line">    if (res.statusCode == 200 &amp;&amp; res.data.code == 200) &#123;</span><br><span class="line">      if (res.data.data.goods_list.length &lt; 100) &#123;</span><br><span class="line">        var isHideLoadMore = 1</span><br><span class="line">        options.page = 0</span><br><span class="line">      &#125;</span><br><span class="line">      else &#123;</span><br><span class="line">        var isHideLoadMore = 0</span><br><span class="line">        options.page = options.page+1</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      if (self.data.goods == &apos;&apos;) &#123;</span><br><span class="line">        var goods = res.data.data.goods_list</span><br><span class="line">      &#125;</span><br><span class="line">      else &#123;</span><br><span class="line">        var goods = self.data.goods.concat(res.data.data.goods_list)</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      self.setData(&#123;</span><br><span class="line">        goods: goods,</span><br><span class="line">        options: options,</span><br><span class="line">        isHideLoadMore: isHideLoadMore</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="具体商品页面"><a href="#具体商品页面" class="headerlink" title="具体商品页面"></a>具体商品页面</h4><p>通过写好的接口取到商品详情，然后进行单个商品信息渲染。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">wx.request(&#123;</span><br><span class="line">  url: app.globalData.zinaerApi + &apos;/dk/goodsDetail&apos;,</span><br><span class="line">  data: options,</span><br><span class="line">  method: &apos;POST&apos;,</span><br><span class="line">  success: function (res) &#123;</span><br><span class="line">    if (res.statusCode == 200 &amp;&amp; res.data.code == 200) &#123;</span><br><span class="line">      self.setData(&#123;</span><br><span class="line">        good: res.data.data.goods_details[0]</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="商品分享和购买按钮的实现"><a href="#商品分享和购买按钮的实现" class="headerlink" title="商品分享和购买按钮的实现"></a>商品分享和购买按钮的实现</h4><p>以下是分享和购买按钮的页面实现，其中购买是跳转到拼多多官方小程序的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;button class=&quot;share&quot; data-hi=&quot;&#123;&#123;good&#125;&#125;&quot; open-type=&quot;share&quot;&gt;</span><br><span class="line">  &lt;view class=&quot;icon&quot;&gt;</span><br><span class="line">    &lt;image src=&quot;/images/pdd_share.png&quot;&gt;&lt;/image&gt;</span><br><span class="line">  &lt;/view&gt;</span><br><span class="line">  &lt;view class=&quot;name&quot;&gt;&#123;&#123;config.share&#125;&#125;&lt;/view&gt;</span><br><span class="line">&lt;/button&gt;</span><br><span class="line">&lt;navigator class=&quot;normal&quot; target=&quot;miniProgram&quot; open-type=&quot;navigate&quot; app-id=&quot;&#123;&#123;appInfo.app_id&#125;&#125;&quot; path=&quot;&#123;&#123;appInfo.page_path&#125;&#125;&quot;&gt;</span><br><span class="line">  &lt;view class=&quot;price&quot;&gt;￥&#123;&#123;(good.min_normal_price - good.coupon_discount) / 100&#125;&#125;&lt;/view&gt;</span><br><span class="line">  &lt;view class=&quot;name&quot;&gt;&#123;&#123;config.normal_buy&#125;&#125;&lt;/view&gt;</span><br><span class="line">&lt;/navigator&gt;</span><br><span class="line">&lt;navigator class=&quot;group&quot; target=&quot;miniProgram&quot; open-type=&quot;navigate&quot; app-id=&quot;&#123;&#123;appInfo.app_id&#125;&#125;&quot; path=&quot;&#123;&#123;appInfo.page_path&#125;&#125;&quot;&gt;</span><br><span class="line">  &lt;view class=&quot;price&quot;&gt;￥&#123;&#123;(good.min_group_price - good.coupon_discount) / 100&#125;&#125;&lt;/view&gt;</span><br><span class="line">  &lt;view class=&quot;name&quot;&gt;&#123;&#123;config.group_buy&#125;&#125;&lt;/view&gt;  </span><br><span class="line">&lt;/navigator&gt;</span><br></pre></td></tr></table></figure>
+
+<p>通过小程序自带方法 <code>onShareAppMessage</code> 实现分享到微信好友或微信群的功能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">onShareAppMessage: function (e) &#123;</span><br><span class="line">  if (e.from === &apos;button&apos;) &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      &apos;title&apos;: e.target.dataset.hi.goods_name,</span><br><span class="line">      &apos;imageUrl&apos;: e.target.dataset.hi.goods_image_url</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过接口生成跳转拼多多官方小程序的信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">wx.request(&#123;</span><br><span class="line">  url: app.globalData.zinaerApi + &apos;/dk/pagePath&apos;,</span><br><span class="line">  data: options,</span><br><span class="line">  method: &apos;POST&apos;,</span><br><span class="line">  success: function (res) &#123;</span><br><span class="line">    if (res.statusCode == 200 &amp;&amp; res.data.code == 200) &#123;</span><br><span class="line">      self.setData(&#123;</span><br><span class="line">        appInfo: res.data.data</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>淘客因为不支持跳转，我们购买按钮用显示模态弹窗的方式实现，生成淘口令并复制，从而可以在手淘中购买。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">wx.request(&#123;</span><br><span class="line">  url: app.globalData.zinaerApi + &apos;/tk/tpwdCreate&apos;,</span><br><span class="line">  data: options,</span><br><span class="line">  method: &apos;POST&apos;,</span><br><span class="line">  success: function (res) &#123;</span><br><span class="line">    if (res.statusCode == 200 &amp;&amp; res.data.code == 200) &#123;</span><br><span class="line">      wx.showModal(&#123;</span><br><span class="line">        title: good.coupon_price + self.data.config.coupon,</span><br><span class="line">        content: res.data.data.model_content,</span><br><span class="line">        showCancel: false,</span><br><span class="line">        confirmText: &apos;复制&apos;,</span><br><span class="line">        success: function (result) &#123;</span><br><span class="line">          if (result.confirm) &#123;</span><br><span class="line">            wx.setClipboardData(&#123;</span><br><span class="line">              data: res.data.data.model</span><br><span class="line">            &#125;)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>以上是对做 优选小工具 小程序的学习和实践，做的一些总结，希望对想要学习这方面开发的人有所帮助。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>作者:</span>
+                        <span>展小白</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>永久链接:</span>
+                        <span><a href="https://blog.zhanxiaobai.com/2018/08/06/tk-dk-dev-wx-small-program/">https://blog.zhanxiaobai.com/2018/08/06/tk-dk-dev-wx-small-program/</a></span>
+                    </p>
+                
+                <!-- 
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span></span>
+                    </p>
+                 -->
+                
+                     <p class="copyright-item">
+                         <span>联系我:</span>
+                         <span>关注公众号「展白说」，获取更多有价值的信息。</span>
+                     </p>
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/小程序/"># 小程序</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2018/08/23/a-byte-of-php-00-preface/">《简明 PHP 教程》00 开篇</a>
+            
+            
+            <a class="next" rel="next" href="/2017/11/18/tencent-360/">从《颠覆者》和 《腾讯传》看 3Q 大战</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 展小白 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

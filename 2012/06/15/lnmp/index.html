@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="description" content="互联网开发，个人技术随想。">
+
+
+    <meta name="keywords" content="展白，展小白，博客，技术，随想。">
+
+
+<title>LNMP 构建经典 Web 服务架构 | 展小白的博客 | Zhan Xiaobai&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">展小白的博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">展小白的博客</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">展开目录</a>
+        <a onclick="go_top()">返回顶部</a>
+        <a onclick="go_bottom()">转到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "合并目录"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "展开目录"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">LNMP 构建经典 Web 服务架构</h1>
+            
+                <div class="post-meta">
+                    
+                        作者: <a itemprop="author" rel="author" href="/">展小白</a>
+                    
+
+                    
+                        <span class="post-time">
+                        发布于: <a href="#">六月 15, 2012&nbsp;&nbsp;16:03:54</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    分类:
+                            
+                                <a href="/categories/技术/">技术</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>更新于 2017-03-16 14:59</p>
+<h2 id="什么是-LNMP-架构？"><a href="#什么是-LNMP-架构？" class="headerlink" title="什么是 LNMP 架构？"></a>什么是 LNMP 架构？</h2><p>LNMP 是用于开发和部署 Web 应用程序的普遍存在的 LAMP 架构的变体。传统上，LAMP 由 Linux，Apache，MySQL 和 PHP 组成。由于其模块化特性，组件可以轻松地换出。使用 LNMP，Apache 被替换为轻量级但功能强大的 Nginx。</p>
+<h3 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h3><p>Linux 是一种自由和开放源代码的类 UNIX 操作系统。在 LNMP 架构中最常用的两个 Linux 发行版是 Debian 和 Ubuntu。</p>
+<h3 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h3><p>Nginx 是一个免费的，开源的，高性能的 HTTP 服务器和反向代理，以及一个 IMAP / POP3 代理服务器。NGINX 以其高性能，稳定性，丰富的功能集，简单的配置和低资源消耗而闻名。</p>
+<h3 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h3><p>MySQL 是一个性能高、成本低、可靠性好、开放源代码的关系数据库管理系统。</p>
+<h3 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h3><p>PHP 是一种被广泛应用的开放源代码的多用途脚本语言，它可嵌入到 HTML 中，尤其适合 web 开发。</p>
+<h2 id="先决条件"><a href="#先决条件" class="headerlink" title="先决条件"></a>先决条件</h2><p>你需要在你的服务器上拥有一个具有 sudo 权限的常规非 root 账户。</p>
+<p>在本教程，我们将使用 Ubuntu 16.04 LTS 作为演示服务器，此过程的所有软件将直接来自 Ubuntu 的默认包存储库。这意味着我们可以使用 apt 软件包管理套件来完成安装。</p>
+<h2 id="安装-Nginx-Web-服务器"><a href="#安装-Nginx-Web-服务器" class="headerlink" title="安装 Nginx Web 服务器"></a>安装 Nginx Web 服务器</h2><p>由于这是我们第一次使用 apt 这个命令，我们应该更新我们的本地包索引，然后我们可以安装服务器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt update</span><br><span class="line">$ sudo apt install nginx</span><br></pre></td></tr></table></figure>
+
+<p>在 Ubuntu 16.04 LTS 上，Nginx 的配置在安装后就开始运行。</p>
+<p>如果你正在用 ufw 运行防火墙，你需要允许连接到 Nginx。</p>
+<p>建议你启用只允许所需流量限制的最严格的配置文件。由于这里尚未为我的服务器配置 SSL，在本指南中，我只允许端口 80 上的流量。你可以通过以下命令启用此功能：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ufw allow &apos;Nginx HTTP&apos;</span><br></pre></td></tr></table></figure>
+
+<p>可以通过以下命令来验证更改：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ufw status</span><br></pre></td></tr></table></figure>
+
+<p>你应该在现实的输出中看到允许的 HTTP 流量：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Status: active</span><br><span class="line"></span><br><span class="line">To                         Action      From</span><br><span class="line">--                         ------      ----</span><br><span class="line">Nginx HTTP                 ALLOW       Anywhere                  </span><br><span class="line">Nginx HTTP (v6)            ALLOW       Anywhere (v6)</span><br></pre></td></tr></table></figure>
+
+<p>添加新的防火墙规则后，你可以通过在 Web 浏览器中访问服务器的域名或公共 IP 地址来测试服务器是否已经启动并运行。</p>
+<p>如果你没有指向你服务器的域名，并且不知道你服务器的公共 IP 地址，可以通过在终端中键入以下命令找到它：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ip address show | grep inet\ | awk &apos;&#123; print $2; &#125;&apos; | sed &apos;s/\/.*$//&apos;</span><br></pre></td></tr></table></figure>
+
+<p>这将打印出几个 IP 地址，你可以在浏览器中依次尝试。</p>
+<p>同时，也可以通过互联网来获取：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl -4 icanhazip.com</span><br></pre></td></tr></table></figure>
+
+<p>键入浏览器你获取到的地址，会访问到 Nginx 的默认页面：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://server_domain_or_IP</span><br></pre></td></tr></table></figure>
+
+<p>如果你看到上面的页面，你已经成功安装了 Nginx。</p>
+<h2 id="安装-MySQL-来管理站点数据"><a href="#安装-MySQL-来管理站点数据" class="headerlink" title="安装 MySQL 来管理站点数据"></a>安装 MySQL 来管理站点数据</h2><p>你可以通过键入以下命令轻松安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt install mysql-server</span><br></pre></td></tr></table></figure>
+
+<p>你将被要求设置 root 密码以在 MySQL 系统中使用。</p>
+<p>MySQL 数据库软件现已安装，但其配置尚未完全完成。</p>
+<p>为了确保安装，我们可以运行一个简单的安全脚本，询问是否要修改一些不安全的默认值。通过键入以下内容开始脚本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo mysql_secure_installation</span><br></pre></td></tr></table></figure>
+
+<p>系统将要求你输入 MySQL root 帐户设置的密码。接下来，将询问你是否要配置 VALIDATE PASSWORD PLUGIN。</p>
+<blockquote>
+<p>警告：启用此功能是一个判断机制。如果启用，那么不符合指定条件的密码将被 MySQL 拒绝并报错。如果你使用弱密码与自动配置 MySQL 用户凭据的软件（如 phpMyAdmin 的 Ubuntu 软件包）结合使用，将会导致问题。可以安全地禁用验证，但是你应该始终对数据库凭据使用强的，唯一的密码。</p>
+</blockquote>
+<p>回答 y 为是，或任何其它继续表示不启用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">VALIDATE PASSWORD PLUGIN can be used to test passwords</span><br><span class="line">and improve security. It checks the strength of password</span><br><span class="line">and allows the users to set only those passwords which are</span><br><span class="line">secure enough. Would you like to setup VALIDATE PASSWORD plugin?</span><br><span class="line"></span><br><span class="line">Press y|Y for Yes, any other key for No:</span><br></pre></td></tr></table></figure>
+
+<p>如果你已启用验证，系统会要求你选择一个级别的密码验证。请记住，如果输入 2，是最强级别，在尝试设置不包含数字，大写和小写字母，特殊字符或基于常用字典单词的任何密码时，你将收到错误。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">There are three levels of password validation policy:</span><br><span class="line"></span><br><span class="line">LOW    Length &gt;= 8</span><br><span class="line">MEDIUM Length &gt;= 8, numeric, mixed case, and special characters</span><br><span class="line">STRONG Length &gt;= 8, numeric, mixed case, special characters and dictionary                  file</span><br><span class="line"></span><br><span class="line">Please enter 0 = LOW, 1 = MEDIUM and 2 = STRONG:1</span><br></pre></td></tr></table></figure>
+
+<p>如果你启用了密码验证，则会显示现有 root 密码的密码强度，并询问你是否要更改该密码。如果你对当前密码感到满意，请在提示符下输入 n 表示“否”：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Using existing password for root.</span><br><span class="line"></span><br><span class="line">Estimated strength of the password: 100 </span><br><span class="line">Change the password for root ? ((Press y|Y for Yes, any other key for No) : n</span><br></pre></td></tr></table></figure>
+
+<p>对于其余的问题，你应该按 Y，并在每个提示符下按 Enter 键。这将删除一些匿名用户和测试数据库，禁用远程根登录，并加载这些新规则，以便 MySQL 立即遵循我们所做的更改。</p>
+<p>此时，你的数据库系统现在已设置，我们可以继续。</p>
+<h2 id="安装-PHP-进行动态内容生成"><a href="#安装-PHP-进行动态内容生成" class="headerlink" title="安装 PHP 进行动态内容生成"></a>安装 PHP 进行动态内容生成</h2><p>由于 Nginx 不包含本地 PHP 处理，像其它一些 Web 服务器一样，我们需要安装 php-fpm，即 “fastCGI 进程管理器”。我们将告诉 Nginx 将 PHP 请求传递给这个软件进行处理。</p>
+<p>我们可以安装这个模块，并且还将获得一个额外的帮助包，它将允许 PHP 与我们的数据库后端进行通信。安装将拉入必要的 PHP 核心文件。通过键入以下内容执行此操作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt install php php-mysql</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置-PHP-处理器"><a href="#配置-PHP-处理器" class="headerlink" title="配置 PHP 处理器"></a>配置 PHP 处理器</h3><p>我们现在已经安装了我们的 PHP 组件，但是我们需要进行一些小的配置更改，以使我们的设置更安全。</p>
+<p>使用 root 权限打开主配置文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vim /etc/php/7.0/fpm/php.ini</span><br></pre></td></tr></table></figure>
+
+<p>我们在这个文件中找到参数 cgi.fix_pathinfo。如果将前面的（;）注释掉，默认设置将为 “1”。</p>
+<p>这是一个非常不安全的设置，因为它告诉 PHP 尝试执行最近的文件，如果找不到请求的 PHP 文件。这基本上将允许用户执行不应该被允许执行的 PHP 请求。</p>
+<p>我们将通过取消注释行并将其设置为 “0” 来更改这两个条件，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cgi.fix_pathinfo=0</span><br></pre></td></tr></table></figure>
+
+<p>保存并关闭这个文件。</p>
+<p>现在，我们只需要重新启动我们的 PHP 处理器就可以生效了，输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo /etc/init.d/php7.0-fpm restart</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置-Nginx-使用-PHP-处理器"><a href="#配置-Nginx-使用-PHP-处理器" class="headerlink" title="配置 Nginx 使用 PHP 处理器"></a>配置 Nginx 使用 PHP 处理器</h2><p>现在，我们安装了所有必需的组件。唯一的配置更改我们仍然需要是告诉 Nginx 使用我们的 PHP 处理器的动态内容。</p>
+<p>我们在服务器块级别上执行此操作（服务器块类似于 Apache 的虚拟主机）。键入以下命令打开默认的 Nginx 服务器块配置文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vim /etc/nginx/sites-available/default</span><br></pre></td></tr></table></figure>
+
+<p>现在，不包含注释，Nginx 默认服务器块配置文件看起来如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80 default_server;</span><br><span class="line">    listen [::]:80 default_server;</span><br><span class="line"></span><br><span class="line">    root /var/www/html;</span><br><span class="line">    index index.html index.htm index.nginx-debian.html;</span><br><span class="line"></span><br><span class="line">    server_name _;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        try_files $uri $uri/ =404;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们需要对我们网站的此文件进行一些更改。</p>
+<p>首先，我们需要添加 index.php 作为 index 指令的第一个值，以便 index.php 在请求目录时提供命名的文件（如果可用）。</p>
+<p>我们可以修改 server_name 指令以指向我们服务器的域名或公共 IP 地址。</p>
+<p>对于实际的 PHP 处理，我们只需要取消注释处理 PHP 请求的文件的一段。这将是 location ~.php$ 位置块，包含的 fastcgi-php.conf 代码段和与之关联的套接字 php-fpm。</p>
+<p>我们还将取消注释处理 .htaccess 文件的位置块。Nginx 不处理这些文件。如果任何这些文件碰巧进入文档根目录，则不应将其提供给访问者。</p>
+<p>进行更改后如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80 default_server;</span><br><span class="line">    listen [::]:80 default_server;</span><br><span class="line"></span><br><span class="line">    root /var/www/html;</span><br><span class="line">    index index.php index.html index.htm index.nginx-debian.html;</span><br><span class="line"></span><br><span class="line">    server_name server_domain_or_IP;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        try_files $uri $uri/ =404;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ~ \.php$ &#123;</span><br><span class="line">        include snippets/fastcgi-php.conf;</span><br><span class="line">        fastcgi_pass unix:/run/php/php7.0-fpm.sock;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ~ /\.ht &#123;</span><br><span class="line">        deny all;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>进行上述更改后，你可以保存并关闭文件。</p>
+<p>通过以下命令来测试配置文件是否有语法错误</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo nginx -t</span><br></pre></td></tr></table></figure>
+
+<p>如果报告任何错误，请返回并重新检查你的文件，然后继续。</p>
+<p>当你修改好，重新加载 Nginx 生效：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo /etc/init.d/nginx reload</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建一个-PHP-文件来测试配置"><a href="#创建一个-PHP-文件来测试配置" class="headerlink" title="创建一个 PHP 文件来测试配置"></a>创建一个 PHP 文件来测试配置</h2><p>你的 LNMP 架构现在应该设置完成。我们可以测试它来验证 Nginx 可以正确处理 .php 文件。</p>
+<p>我们可以通过在我们的文档根中创建一个测试 PHP 文件来实现。在文本编辑器中打开文档根目录中调用的新文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vim /var/www/html/info.php</span><br></pre></td></tr></table></figure>
+
+<p>在新文件中键入或粘贴以下行。这是有效的 PHP 代码，将返回有关我们的服务器的信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">phpinfo();</span><br></pre></td></tr></table></figure>
+
+<p>完成后，保存并关闭文件。</p>
+<p>现在，你可以在网络浏览器中访问此页面，方法是访问你的服务器的域名或公共 IP 地址，然后访问 /info.php：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://server_domain_or_IP/info.php</span><br></pre></td></tr></table></figure>
+
+<p>你应该看到一个由 PHP 生成的网页，其中包含有关你的服务器的信息，如果你看到一个类似这样的页面，你已经成功地设置了 PHP 处理 Nginx。</p>
+<p>验证 Nginx 正确呈现页面后，最好删除你创建的文件，因为它实际上可能会向未经授权的用户提供有关你的配置的一些提示，这可能有助于他们尝试插入。如果以后需要，可以随时重新生成此文件。</p>
+<p>现在，请通过键入以下命令删除该文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo rm /var/www/html/info.php</span><br></pre></td></tr></table></figure>
+
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>你现在应该已经在你的 Ubuntu 16.04 LTS 服务器上配置了一个 LNMP 架构。这为你向访问者提供 Web 内容提供了非常灵活的基础。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>作者:</span>
+                        <span>展小白</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>永久链接:</span>
+                        <span><a href="https://blog.zhanxiaobai.com/2012/06/15/lnmp/">https://blog.zhanxiaobai.com/2012/06/15/lnmp/</a></span>
+                    </p>
+                
+                <!-- 
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span></span>
+                    </p>
+                 -->
+                
+                     <p class="copyright-item">
+                         <span>联系我:</span>
+                         <span>关注公众号「展白说」，获取更多有价值的信息。</span>
+                     </p>
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/开发/"># 开发</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2016/06/11/apt-and-apt-get/">apt 和 apt-get 的区别</a>
+            
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 展小白 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

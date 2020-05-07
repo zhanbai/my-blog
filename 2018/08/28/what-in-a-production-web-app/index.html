@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="description" content="互联网开发，个人技术随想。">
+
+
+    <meta name="keywords" content="展白，展小白，博客，技术，随想。">
+
+
+<title>一个合理的生产环境的 Web 应用程序应该是什么样子的 | 展小白的博客 | Zhan Xiaobai&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">展小白的博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">展小白的博客</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">展开目录</a>
+        <a onclick="go_top()">返回顶部</a>
+        <a onclick="go_bottom()">转到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "合并目录"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "展开目录"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">一个合理的生产环境的 Web 应用程序应该是什么样子的</h1>
+            
+                <div class="post-meta">
+                    
+                        作者: <a itemprop="author" rel="author" href="/">展小白</a>
+                    
+
+                    
+                        <span class="post-time">
+                        发布于: <a href="#">八月 28, 2018&nbsp;&nbsp;7:43:43</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    分类:
+                            
+                                <a href="/categories/技术/">技术</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>好的工具的产生使开发与部署变得十分容易，作为一个曾经的云服务从业人员，鼓励大家拥抱云服务。拥抱这些现成的技术栈。</p>
+<p>这是我在 stephenmann.io 上看到的一篇文章，对于 Web 应用程序架构演进的过程讲解的十分通俗易懂，所以就把它翻译了出来。</p>
+<h1 id="一个合理的生产环境的-Web-应用程序应该是什么样子的"><a href="#一个合理的生产环境的-Web-应用程序应该是什么样子的" class="headerlink" title="一个合理的生产环境的 Web 应用程序应该是什么样子的"></a>一个合理的生产环境的 Web 应用程序应该是什么样子的</h1><p>原载：stephenmann.io</p>
+<p>译者：展小白</p>
+<p>一个产品的规划可能会是迎合最普遍的需求，但是很多情况客户希望解决具体的问题，这些问题可能将程序变得无限复杂，就必须提出有效的解决方案。</p>
+<p>在过去的经验教训中，一些工程师倾向于深入了解各项技术，足以解决任何问题。对于有着良好沟通的团队，这是非常好的。这些综合的知识有效的填补了团队个人的薄弱点。但对于行业或者经验不足的工程师团队，这些几乎是不可能的。</p>
+<p>如果你是在一个薄弱的技术团队，然后从头开始构建和部署整个 Web 应用程序，你可能很快意识到要深入了解每项技术，是很难的一件事情。</p>
+<p>业界其实已经提供了很多旨在解决这些问题的方案：Web 托管服务（Beanstalk，AppEngine 等），容器管理服务（Kubernetes, ECS 等）以及其它很多解决方案。一旦你启动并运行它们，便可以很好的正常进行工作，这种解决方案非常好，因为它规避了启动和运行 Web 程序过程中大量复杂的操作，而且最终目的是为了使程序正常工作。</p>
+<p>这里可能需要下功夫的是，在你决定用哪种方案时，你需要更多的了解这些解决方案。</p>
+<p>在这篇文章中，将介绍一个不靠谱的系统到具有合理可靠性的系统的过程。这里不会介绍每一部分的具体细节，而是通过演进的过程，让你拥有在何时应该采用哪些决策的良好背景。</p>
+<h2 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h2><p>最基本的你需要购买一台服务器，比如可以从亚马逊购买中配的服务器。</p>
+<p>你知道你的程序需要用户登录，你需要存储用户信息。因此你需要一个数据库。由于预算有限，直接在你的服务器上进行创建。最终得到的架构如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1595196-82535fe955e526e2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>这应该足够了，事实上，使用这个架构，可以保障你的程序运行很长时间而没有瓶颈。此时，你可能每天只需要处理 10 次访问请求。其实一个最低配的服务器已经足够了，但是你的公司可能对业务持增长态度，所以选择了中配的服务器。</p>
+<p>现在，你将有价值的业务数据存储在实例中的数据库中，如果服务器发生故障，或者实例被删除，很可能导致数据丢失，这是很可怕的。你应该确保数据备份到外部存储。比如：S3 服务。所以让我们设置它。你应该通过每隔一段时间恢复一次备份的方式来确保它正常运行。</p>
+<p>你的架构应该如下所示：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1595196-06975b7f45f89fc0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>你已经提高了数据库的可靠性，那么你决定通过对服务器进行负载测试来检验是否可以应对大规模的流量访问。一切似乎进展顺利，直到 500 错误出现，继而是 404，所以你要排查是什么原因造成的。</p>
+<p>但实际上，你并不知道是什么原因导致的，因为你把日志写到了控制台，并没有写入到日志文件中。你看到该进程并没有运行，因此你假设是这个原因导致了 404。</p>
+<p>你可以通过创建 <code>systemd</code> 运行 Web 服务器服务来解决自动启动的问题，并解决你的日志记录问题。然后再进行新一轮的负载测试，以确保解决了所有的问题。</p>
+<p>再一次，你看到了 500 错误，庆幸的是没有 404，你检查日志看是哪里出错了。你发现数据库的连接池已经饱和，该连接池设置了 10 个连接的限制。你更新了限制，重启数据库，然后再次运行负载测试。一切顺利。所以你决定对你的网站进行推广。</p>
+<h2 id="发布日"><a href="#发布日" class="headerlink" title="发布日"></a>发布日</h2><p>哇！你的服务很受欢迎，在 30 分钟内就获得了 5000 次的点击，你看到有评论进来。他们怎么说？</p>
+<blockquote>
+<p>我访问 404 了，于是我检查我存储的地址是否正确，竟然换地址了，如果有人需要，这是新的链接：……</p>
+</blockquote>
+<p>……</p>
+<blockquote>
+<p>什么也没有显示，也许是因为我禁用了 JavaScript，但是，谁会需要 2MB 那么大的 JS 文件 ……</p>
+</blockquote>
+<p>……</p>
+<blockquote>
+<p>你们的主页需要 4s 才能加载，而且访问到的是离我很远的一个地区的地址，另外，为什么要加载 2MB 的 JS 文件？</p>
+</blockquote>
+<p>于是你拼命的进行了优化，你在服务器通过 Nginx 设置了跳转你应用程序的反向代理，你将静态文件进行了剥离，上传到了 S3，这是很有效的，你可以通过 CDN 帮助加速你网站在不同地区的访问。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1595196-147adae65a82652e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>现在，你已经解决了当前的问题，那么你可以通过访问服务器查看日志。你发现 SSH 连接非常慢，经过一番检查，你发现你的日志文件已经耗尽了你的磁盘空间，这会使你的进程崩溃并阻止它再次启动。你创建更大的磁盘存储日志，并且设置 <code>logrotate</code> 防止日志文件再次变得如此巨大。</p>
+<h2 id="性能问题"><a href="#性能问题" class="headerlink" title="性能问题"></a>性能问题</h2><p>几个月过去了，你的用户数持续增长，你的网站开始变得很慢。你在监控中注意到，这种情况似乎只发生在午夜到中午之间。由于变慢开始和结束的时间比较固定，你猜测应该是服务器上的定时任务造成的。你检查 crontab 意识到你在午夜安排了备份任务。果然，你的备份过程需要持续 12 个小时，并且导致数据库超载，导致了站点访问明显拖慢。</p>
+<p>你觉得应该在从库进行数据库的备份，但是你记得，你并没有创建从库，所以你需要创建一个。在同一台服务器运行从库没有太大的意义，因此，你决定对服务器进行扩展，创建了两个新的服务器：一个用于 master 数据库，另一个用于 slave 数据库。你将备份改为依据从库运行。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1595196-7ae07d5950698cea.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<h2 id="发展团队"><a href="#发展团队" class="headerlink" title="发展团队"></a>发展团队</h2><p>一切都很平稳，运行了一段时间。几个月过去了。你扩充了开发团队，其中一位新的开发人员为了检查一个错误，导致了生产服务器的故障。客户把错误归咎到了你没有对生产测试环境进行区分。你觉得说的有道理，你是个虚心学习并且有追求的人，你把这次故障看做是一次学习的机会。</p>
+<p>现在是到了构建规范的开发部署流程的时候了：分期开发，测试，然后部署。幸运的是，一开始你建立了良好的基础架构，因此这变得很容易。因为你从第一天起，就良好的践行了持续交付，你可以轻松的在一个新的分支进行构建。</p>
+<p>业务部门希望推出 2.0 版本，但并没有具体的业务需求，但是你还是去做了。你觉得是时候进行一次性能的改造。你的 Web 服务器的运行现在已经接近峰值的利用率，因此你决定对流量进行负载均衡。而亚马逊 ELB 使你很容易上手。与此同时你觉得你的架构图应该是这样的：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1595196-52850fce3229c2a0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>另外还可以通过 Redis 等做一些缓存策略。相信你的优化能够承担更大的负载，所以你再次对你的网站进行了大力推广，不出所料，流量飙升，但运行很稳定。</p>
+<p>一切看起来都那么好，直到你需要去检查日志。这花费了你一个小时，因为要检查 12 台服务器（每个环境有 4 台服务器）。那是一件麻烦事，幸运的是，你现在已经赚了足够的钱可以实现 ELK 堆栈（ElasticSearch，LogStash，Kibana）。新的架构图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1595196-c300a7a0eb4171c1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>现在，你可以再次阅读你的日志了，你发现了一些奇怪的情况。里面充满了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">GET /wp-login.php HTTP/1.1&quot; 404 169 &quot;-&quot; &quot;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1</span><br><span class="line">GET /wp-login.php HTTP/1.1&quot; 404 169 &quot;-&quot; &quot;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1</span><br><span class="line">GET /wp-login.php HTTP/1.1&quot; 404 169 &quot;-&quot; &quot;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1</span><br><span class="line">GET /wp-login.php HTTP/1.1&quot; 404 169 &quot;-&quot; &quot;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1</span><br><span class="line">GET /wp-login.php HTTP/1.1&quot; 404 169 &quot;-&quot; &quot;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1</span><br><span class="line">GET /wp-login.php HTTP/1.1&quot; 404 169 &quot;-&quot; &quot;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1</span><br><span class="line">GET /wp-login.php HTTP/1.1&quot; 404 169 &quot;-&quot; &quot;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1</span><br><span class="line">GET /wp-login.php HTTP/1.1&quot; 404 169 &quot;-&quot; &quot;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1</span><br><span class="line">GET /wp-login.php HTTP/1.1&quot; 404 169 &quot;-&quot; &quot;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1</span><br><span class="line">GET /wp-login.php HTTP/1.1&quot; 404 169 &quot;-&quot; &quot;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1</span><br></pre></td></tr></table></figure>
+
+<p>你并没有运行 PHP 或 WordPress，所以很令人担忧。你在数据库服务器上注意到类似的可疑日志，你想怎么把他们暴露在公网上了。所以是时候进行公网和本地访问的隔离了。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1595196-31c273d7803cc926.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>再次，你检查了日志，虽然仍然可能被黑客攻击，但是仅限于负载均衡服务器上的 80 端口，而你的应用服务器，数据服务器和 ELK 堆栈不再暴露在公网上。你可以轻松许多了。</p>
+<p>虽然对日志进行了集中式的记录管理，但是还不得不手动检查日志。这时候使用服务器提供商的监控，设置磁盘、CPU 和 网络报警，以便在达到 80% 的使用率时通过邮件等途径通知你，是个不错的选择。</p>
+<h2 id="一帆风顺"><a href="#一帆风顺" class="headerlink" title="一帆风顺"></a>一帆风顺</h2><p>开玩笑，没有哪个程序的运行是一帆风顺的，总有事情会发生，幸运的是，你有很多工具可以处理这些问题。</p>
+<p>现在，我们已经构建了一个可扩展的 Web 应用程序，包括备份，回滚，集中式日志记录管理，监控和警报。可以告一段落了，因为下面的改变往往取决于特定应用的需求。</p>
+<p>业界提供了许多托管选项，可以为你处理大部分内容。你可以依靠 Beanstalk，AppEngine，GKE，ECS 等而不是自己构建所有这些服务。大多数这些服务都会自动设置合理的权限，负载均衡，子网等。可以确保你的站点可以长时间运行。</p>
+<p>了解这些平台提供的功能以及什么时候使用它们是非常有用的，这样，你可以根据你的需要轻松选择平台。一旦你在相关平台上运行了你的程序，你应该了解这些工具的工作原理，这是很重要的，有助于在遇到问题时，快速解决问题。</p>
+<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><p>这篇文章省略了很多细节，不包括如何自动创建基础架构，如何配置服务器。不包括任何开发环境的创建，如何实践持续交付，如何执行部署和回滚。不包括网络安全，私密共享或最小权限原则。它不涵盖不可变基础架构，无状态服务以及迁移的重要性。其实每个主题都可以独立开辟一篇文章。</p>
+<p>本文的主要目的是提供一个合理的生产环境的 Web 应用程序应该是什么样子的。</p>
+<p>感谢你的阅读！</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>作者:</span>
+                        <span>展小白</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>永久链接:</span>
+                        <span><a href="https://blog.zhanxiaobai.com/2018/08/28/what-in-a-production-web-app/">https://blog.zhanxiaobai.com/2018/08/28/what-in-a-production-web-app/</a></span>
+                    </p>
+                
+                <!-- 
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span></span>
+                    </p>
+                 -->
+                
+                     <p class="copyright-item">
+                         <span>联系我:</span>
+                         <span>关注公众号「展白说」，获取更多有价值的信息。</span>
+                     </p>
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/架构/"># 架构</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2018/08/29/a-byte-of-php-03-first-steps/">《简明 PHP 教程》03 第一步</a>
+            
+            
+            <a class="next" rel="next" href="/2018/08/27/a-byte-of-php-02-installation/">《简明 PHP 教程》02 安装</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 展小白 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

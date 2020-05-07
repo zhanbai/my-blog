@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="description" content="互联网开发，个人技术随想。">
+
+
+    <meta name="keywords" content="展白，展小白，博客，技术，随想。">
+
+
+<title>面对多语言开发，你是怎么选择编辑器的？ | 展小白的博客 | Zhan Xiaobai&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">展小白的博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">展小白的博客</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">展开目录</a>
+        <a onclick="go_top()">返回顶部</a>
+        <a onclick="go_bottom()">转到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "合并目录"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "展开目录"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">面对多语言开发，你是怎么选择编辑器的？</h1>
+            
+                <div class="post-meta">
+                    
+                        作者: <a itemprop="author" rel="author" href="/">展小白</a>
+                    
+
+                    
+                        <span class="post-time">
+                        发布于: <a href="#">十月 29, 2017&nbsp;&nbsp;6:12:10</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    分类:
+                            
+                                <a href="/categories/工具/">工具</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>笔者经历了，早期，使用 DW 编写网页，VC 写 C++，Zend Studio 写 PHP，到后面的 Vim 多语言开发，再到今天要提到的 JetBrains 家族。在这个过程中思想和认识都有了很大的变化。</p>
+<h2 id="IDE-的优势"><a href="#IDE-的优势" class="headerlink" title="IDE 的优势"></a>IDE 的优势</h2><p>首先，什么是 IDE？简单点说，IDE 就是一种针对特定程式语言而量身打造的集成开发环境。</p>
+<p>IDE 有很多优势，比如：</p>
+<ul>
+<li>提高效率。 让编码更容易，更少错误。</li>
+<li>协作。 开发组可以很容易使用统一标准进行合作开发。</li>
+<li>项目管理。 使组织程序资源更容易。</li>
+</ul>
+<h2 id="IDE-有什么选择"><a href="#IDE-有什么选择" class="headerlink" title="IDE 有什么选择"></a>IDE 有什么选择</h2><p>最开始，为了减少学习成本，选择了 Vim + 插件的方式来实现 IDE，这样只要熟悉 Vim 的操作，而不需要一个一个学习针对不同语言的 IDE。可以最大程度，减小学习的成本，这确实满足了相当长一段时间的需求。</p>
+<p>之后，遇到了 JetBrains 家族，发现这套软件基本延续了之前的思想，<strong>一次学习，统统受用</strong>。</p>
+<p>JetBrains 家族有很多优秀的 IDE，比如：针对 Java 的 IntelliJ IDEA，针对 PHP 的 PhpStorm，针对 Python 的 PyCharm，针对 JS 的 WebStorm 等等，你只要能想到的主流编程语言，他都支持。</p>
+<h3 id="JetBrains-家族"><a href="#JetBrains-家族" class="headerlink" title="JetBrains 家族"></a>JetBrains 家族</h3><p>专业的事儿，交给专业的人做。相较于，自己编写或者集成其它插件到 Vim 构建 IDE，使用 JetBrains 显得尤为简单，不必说最基本的代码补全，语法高亮，函数间跳转，任何你能想到的功能 JetBrains 基本都帮你想到和做到了。</p>
+<p>JetBrains 家族众多的 IDE 都是以 IntelliJ IDEA 平台为基础，增加针对相关语言的功能来实现的。这个基础决定了，只要熟悉某一款 IDE 的使用操作，就可以很容易使用其他语言 IDE。甚至不需要使用其他语言 IDE，只要在某个 IDE 增加插件就可以了。这和我们熟悉了 Vim，在他上边添加针对相关语言的插件，一样的道理。</p>
+<p>JetBrains 家族软件还有个特点，可以添加 Vim 插件，从而兼容之前习惯的 Vim 操作。 这样，就能够以最小的转化成本全面接受 JetBrains。</p>
+<p>这里以 PhpStorm 为例，简单介绍下 JetBrains 家族的 IDE：</p>
+<ul>
+<li>打开项目。可以打开本地存在的项目、创建新项目、从版本控制获得项目。</li>
+<li>用户界面。菜单栏、工具栏、工程导航栏、工具窗口，支持运行、Debug、版本控制、终端操作等。</li>
+<li>编码辅助。实现了许多功能来辅助编码，比如：代码补全、监测代码并给出建议、修改错误等。</li>
+<li>生成代码。可以使用一些自动生成的代码，加快开发速度。</li>
+<li>代码查找。可以针对全局、某个目录、某些使用来进行代码搜索。当然也支持对当前文件的查找，对比查看代码历史记录。</li>
+<li>调试代码。含有 Xdebug 工具，支持 PHPUnit。</li>
+<li>版本控制。支持主流的版本控制软件，比如：GitHub。</li>
+</ul>
+<p>PhpStorm 还有很多强大的功能，你可以慢慢去发掘。</p>
+<p>JetBrains 家族软件，首次可以免费试用 30 天。同时支持支付宝购买。可以按年，按月，打包或者单个购买。打包购买首年每月不到 65 美元。一年优惠价 649 美元。</p>
+<p><em>目前，Zinaer 提供一年免费的 JetBrains 全系软件开发者帮扶计划，希望帮助有需要的开发者使用到优质的软件服务，可以关注公众号 zinaer666 索取。（已送完）</em></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>作者:</span>
+                        <span>展小白</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>永久链接:</span>
+                        <span><a href="https://blog.zhanxiaobai.com/2017/10/29/phpstrom/">https://blog.zhanxiaobai.com/2017/10/29/phpstrom/</a></span>
+                    </p>
+                
+                <!-- 
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span></span>
+                    </p>
+                 -->
+                
+                     <p class="copyright-item">
+                         <span>联系我:</span>
+                         <span>关注公众号「展白说」，获取更多有价值的信息。</span>
+                     </p>
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/开发/"># 开发</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2017/10/30/vagrant/">Vagrant 的那些事儿</a>
+            
+            
+            <a class="next" rel="next" href="/2017/10/28/welcome-modern-php/">抛弃陈旧的观念，拥抱新时代的 PHP</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 展小白 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

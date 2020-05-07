@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="description" content="互联网开发，个人技术随想。">
+
+
+    <meta name="keywords" content="展白，展小白，博客，技术，随想。">
+
+
+<title>CSS 编写：从语义化到复用化 | 展小白的博客 | Zhan Xiaobai&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">展小白的博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">展小白的博客</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">展开目录</a>
+        <a onclick="go_top()">返回顶部</a>
+        <a onclick="go_bottom()">转到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "合并目录"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "展开目录"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">CSS 编写：从语义化到复用化</h1>
+            
+                <div class="post-meta">
+                    
+                        作者: <a itemprop="author" rel="author" href="/">展小白</a>
+                    
+
+                    
+                        <span class="post-time">
+                        发布于: <a href="#">十二月 27, 2019&nbsp;&nbsp;10:33:43</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    分类:
+                            
+                                <a href="/categories/技术/">技术</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>最近看了一篇关于 CSS 编写的文章，觉得思路有一定启发性，所以通过一定的整理消化，促成本篇文章。</p>
+<h3 id="语义化-CSS"><a href="#语义化-CSS" class="headerlink" title="语义化 CSS"></a>语义化 CSS</h3><p>从我们开始学习编写 CSS，关注点分离就是我们了解到的最佳实践，即内容和样式的分离。</p>
+<p>下面看一个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;text-center&quot;&gt;</span><br><span class="line">    hello world!</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>其中定义了类 <code>text-center</code> 表明文本居中的设计决定，这违反了关注点分离的思路，推荐的做法应该是根据文本内容来命名类名，比如 <code>greeting</code>。CSS 样式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line">.greeting &#123;</span><br><span class="line">    text-align: center;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br><span class="line">&lt;div class=&quot;greeting&quot;&gt;</span><br><span class="line">    hello world!</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>使用关注点分离的 Web 应用，如果想要改变整体样式风格，只需对 CSS 部分做重新设计即可。</p>
+<p>看下面一个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line">.author-bio &#123;</span><br><span class="line">    background-color: white;</span><br><span class="line">    &gt; h2 &#123;</span><br><span class="line">        font-size: 18px;</span><br><span class="line">        color: #323233;</span><br><span class="line">    &#125;</span><br><span class="line">    &gt; p &#123;</span><br><span class="line">        font-size: 16px;</span><br><span class="line">        color: #646566;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br><span class="line">&lt;div class=&quot;author-bio&quot;&gt;</span><br><span class="line">    &lt;h2&gt;李小龙&lt;/h2&gt;</span><br><span class="line">    &lt;p&gt;原名李振藩，师承叶问，1940 年出生于美国加州旧金山，祖籍中国广东省佛山市顺德区均安镇，世界武道变革先驱者、武术技击家、武术哲学家、MMA 之父、武术宗师、功夫片的开创者和截拳道创始人、华人武打电影演员，中国功夫首位全球推广者、好莱坞首位华人主角。&lt;/p&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>上述例子已经实现了内容与样式的分离，但是 CSS 本身是嵌套的，似乎显得没有那么分离。从 CSS 结构中也可以看出 HTML 的大致结构。</p>
+<h3 id="解决-CSS-样式的耦合问题"><a href="#解决-CSS-样式的耦合问题" class="headerlink" title="解决 CSS 样式的耦合问题"></a>解决 CSS 样式的耦合问题</h3><p>解决 CSS 样式嵌套的耦合，比较出名的是 BEM 方法，即块元素修饰器。使用这种方面，上面的例子可以改写为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line">.author-bio &#123;</span><br><span class="line">    background-color: white;</span><br><span class="line">&#125;</span><br><span class="line">author-bio__name &#123;</span><br><span class="line">    font-size: 18px;</span><br><span class="line">    color: #323233;</span><br><span class="line">&#125;</span><br><span class="line">author-bio__body &#123;</span><br><span class="line">    font-size: 16px;</span><br><span class="line">    color: #646566;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br><span class="line">&lt;div class=&quot;author-bio&quot;&gt;</span><br><span class="line">    &lt;h2 class=&quot;author-bio__name&quot;&gt;李小龙&lt;/h2&gt;</span><br><span class="line">    &lt;p class=&quot;author-bio__body&quot;&gt;原名李振藩，师承叶问，1940 年出生于美国加州旧金山，祖籍中国广东省佛山市顺德区均安镇，世界武道变革先驱者、武术技击家、武术哲学家、MMA 之父、武术宗师、功夫片的开创者和截拳道创始人、华人武打电影演员，中国功夫首位全球推广者、好莱坞首位华人主角。&lt;/p&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>上述方案解决了 CSS 样式的耦合问题，CSS 类名也是语义化的，跟 HTML 标记也没有了关联。</p>
+<p>假如我要处理一个类似的样式，比如显示文章的预览，同样是标题 + 内容的形式。如果我们将 <code>author-bio</code> 应用到文章预览，似乎违反了语义化的规则，那么如果我们定义 <code>article-preview</code> 类名，我们就要把具体的样式都复制或者重写一遍。当然，我们也可以使用 @extend 来继承 <code>author-bio</code> 的样式。</p>
+<p>除了上述两种方式，是否有第三种方式？我们可以创建与内容无关的样式，虽然从语义的角度讲，作者简介和文章预览没有必然联系，但是从设计角度讲，他们有着共同的样式，可以定义 <code>media-card</code> 类。</p>
+<p>如果我们想要改变作者简介的样式，而不改变文章预览的样式，我们需要定义新的类。从以上我们可以看出，如果从是否符合关注点分离的规则来看待 HTML 和 CSS 的关系，那就是非黑即白的问题。这似乎不是非常正确的思路，相反，我们更应该考虑的是依赖问题。</p>
+<p>如果是 CSS 依赖于 HTML（关注点分离），即 HTML 是独立的、可复用的，那么 CSS 就是不可复用的；如果是 HTML 依赖于 CSS（混合问题），即 CSS 是独立的、可复用的，那么 HTML 就是不可复用的。在行业中，CSS Zen Garden 使用的是第一种方法，而常见的 UI 框架，如 Bootstrap 等使用的是第二种方法。</p>
+<p>这两种方法没有谁对谁错，我们从可复用角度来思考 CSS 的优化问题。</p>
+<h3 id="CSS-的复用化"><a href="#CSS-的复用化" class="headerlink" title="CSS 的复用化"></a>CSS 的复用化</h3><p>我们的目的是尽可能创建不依赖 HTML 内容的可复用的类名定义。这样的类名可能有：<code>card</code> <code>btn</code> <code>btn-primary</code> <code>img-round</code> <code>badge</code> 等。</p>
+<p>看下面一个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;form class=&quot;stacked-form&quot; action=&quot;#&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;stacked-form__section&quot;&gt;</span><br><span class="line">        &lt;button class=&quot;btn btn--secondary&quot;&gt;Cancel&lt;/button&gt;</span><br><span class="line">        &lt;button class=&quot;btn btn--primary&quot;&gt;Submit&lt;/button&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+
+<p>如果我们想要这个表单中两个按钮之间隔开一定距离，可以创建一个新的子组件 <code>actions-list</code>，该组件易于复用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line">.actions-list &#123;</span><br><span class="line">    text-align: right;</span><br><span class="line">&#125;</span><br><span class="line">.actions-list__item &#123;</span><br><span class="line">    margin-right: 1rem;</span><br><span class="line">    &amp;:last-child &#123;</span><br><span class="line">        margin-right: 0;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br><span class="line">&lt;form class=&quot;stacked-form&quot; action=&quot;#&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;stacked-form__section actions-list&quot;&gt;</span><br><span class="line">        &lt;button class=&quot;actions-list__item btn btn--secondary&quot;&gt;Cancel&lt;/button&gt;</span><br><span class="line">        &lt;button class=&quot;actions-list__item btn btn--primary&quot;&gt;Submit&lt;/button&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+
+<p>沿着复用这条思路走下去，久而久之基本可以构建一套全新的 UI 组件库，而无需编写过多新的 CSS。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>作者:</span>
+                        <span>展小白</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>永久链接:</span>
+                        <span><a href="https://blog.zhanxiaobai.com/2019/12/27/css-best-use/">https://blog.zhanxiaobai.com/2019/12/27/css-best-use/</a></span>
+                    </p>
+                
+                <!-- 
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span></span>
+                    </p>
+                 -->
+                
+                     <p class="copyright-item">
+                         <span>联系我:</span>
+                         <span>关注公众号「展白说」，获取更多有价值的信息。</span>
+                     </p>
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/CSS/"># CSS</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/05/02/refuse-to-work-overtime/">员工拒绝加班，被判赔偿公司1.8万</a>
+            
+            
+            <a class="next" rel="next" href="/2019/09/10/data-in-php-00-preface/">《数据结构与算法 PHP 语言描述》00 开篇</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 展小白 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

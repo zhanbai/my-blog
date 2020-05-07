@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="description" content="互联网开发，个人技术随想。">
+
+
+    <meta name="keywords" content="展白，展小白，博客，技术，随想。">
+
+
+<title>《数据结构与算法 PHP 语言描述》00 开篇 | 展小白的博客 | Zhan Xiaobai&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">展小白的博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">展小白的博客</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">展开目录</a>
+        <a onclick="go_top()">返回顶部</a>
+        <a onclick="go_bottom()">转到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "合并目录"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "展开目录"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">《数据结构与算法 PHP 语言描述》00 开篇</h1>
+            
+                <div class="post-meta">
+                    
+                        作者: <a itemprop="author" rel="author" href="/">展小白</a>
+                    
+
+                    
+                        <span class="post-time">
+                        发布于: <a href="#">九月 10, 2019&nbsp;&nbsp;19:05:34</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    分类:
+                            
+                                <a href="/categories/《数据结构与算法-PHP-语言描述》/">《数据结构与算法 PHP 语言描述》</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>《数据结构与算法 PHP 语言描述》是一本由展小白编写，旨在通过 PHP 语言来描述、学习数据结构与算法的自由图书。如果你没有接受过正规的计算机科学教育，想要学习数据结构与算法，那这本书就是为你准备的。</p>
+<p><strong>本博客后续将以连载的方式为读者呈现这本书。</strong></p>
+<p>谈到对数据结构与算法的描述，大多数程序员能够想到的往往是 C/C++/Java 等强类型语言对其进行的描述。但随着行业的不断发展，PHP 等弱类型语言对包括数据结构（如链表、栈、队列、图等），排序和查找算法也有着强烈的需求。本书讨论在使用 PHP 进行服务器端编程时，如何实现这些数据结构与算法。</p>
+<h2 id="为什么要学习数据结构与算法"><a href="#为什么要学习数据结构与算法" class="headerlink" title="为什么要学习数据结构与算法"></a>为什么要学习数据结构与算法</h2><p>如果你是科班出身，接受过正规的计算机科学教育，你应该清楚数据结构与算法的重要性。如果你不是，那么请耐心读完本节。</p>
+<p>计算机博士 Nicklaus Wirth 提出过一个著名的公式，“算法 + 数据结构 = 程序”。这个公式概述了计算机编程的精要，任何一个有些规模的程序都需要某种类型的数据结构来保存程序中用到的数据，还需要一个或多个算法将数据从输入转换为输出。</p>
+<p>对于非科班出身的程序员，最熟悉的数据结构应该就是数组。在处理一些问题时，数组是很好的选择。但对于更加复杂的问题，数组可能就显得力不从心了。对于大多数有经验的程序员来说，如果想出了一个合适的数据结构，那么再去设计解决问题的算法就变得简单起来。</p>
+<p>二叉查找树（BST）就是一个这样的例子。设计二叉查找树的目的是为了方便查找一组数据中的最小值和最大值。由这个数据结构也就引申出了一个查找算法，该算法比目前很多查找算法效率都高。如果你是一个不熟悉二叉查找树的程序员，可能会使用一个更简单的数据结构，但效率上就会打折扣。</p>
+<p>解决同一个问题，往往有多种算法可以使用。对于经验丰富、高效的程序员来说，能够清楚的知道哪种算法更高效。比如，现在至少有六七种排序算法，如果知道快速排序比选择排序效率更高，那么就会让排序过程变得高效。又比如，实现一个线性查找的算法很简单，但是如果知道有时二分查找可能比线性查找快两倍以上，那你就会写出一个更好的程序。</p>
+<p>学习数据结构和算法，不光可以知道哪种数据结构和算法更高效，还会知道如何选择最适合解决手头问题的数据结构和算法。写程序时，往往需要权衡，知道了本书涵盖的数据结构和算法的优缺点，在解决具体的编程问题时就更能做出正确的选择。</p>
+<h2 id="献词"><a href="#献词" class="headerlink" title="献词"></a>献词</h2><p>本书献给 <a href="http://www.ibiblio.org/pioneers/index.html" target="_blank" rel="noopener">创造互联网的开拓者们</a>。得益于这些先驱们对互联网上这一分享知识的土壤与环境的设想，本书才得以存在，并对他们深表感谢。</p>
+<p>本书需要来自它的读者的帮助，例如由你来指出书中任何部分还不够好，难以理解或整个就是错的。请<a href="bai.zhan@qq.com">写信给作者</a> 。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>作者:</span>
+                        <span>展小白</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>永久链接:</span>
+                        <span><a href="https://blog.zhanxiaobai.com/2019/09/10/data-in-php-00-preface/">https://blog.zhanxiaobai.com/2019/09/10/data-in-php-00-preface/</a></span>
+                    </p>
+                
+                <!-- 
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span></span>
+                    </p>
+                 -->
+                
+                     <p class="copyright-item">
+                         <span>联系我:</span>
+                         <span>关注公众号「展白说」，获取更多有价值的信息。</span>
+                     </p>
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/《数据结构与算法-PHP-语言描述》/"># 《数据结构与算法 PHP 语言描述》</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/12/27/css-best-use/">CSS 编写：从语义化到复用化</a>
+            
+            
+            <a class="next" rel="next" href="/2019/09/09/vscode-extensions/">用于提高 Web 开发效率的 VSCode 扩展</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 展小白 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

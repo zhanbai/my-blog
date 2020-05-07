@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="description" content="互联网开发，个人技术随想。">
+
+
+    <meta name="keywords" content="展白，展小白，博客，技术，随想。">
+
+
+<title>《简明 PHP 教程》00 开篇 | 展小白的博客 | Zhan Xiaobai&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">展小白的博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">展小白的博客</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">展开目录</a>
+        <a onclick="go_top()">返回顶部</a>
+        <a onclick="go_bottom()">转到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "合并目录"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "展开目录"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">《简明 PHP 教程》00 开篇</h1>
+            
+                <div class="post-meta">
+                    
+                        作者: <a itemprop="author" rel="author" href="/">展小白</a>
+                    
+
+                    
+                        <span class="post-time">
+                        发布于: <a href="#">八月 23, 2018&nbsp;&nbsp;20:54:14</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    分类:
+                            
+                                <a href="/categories/《简明-PHP-教程》/">《简明 PHP 教程》</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>《简明 PHP 教程》是一本由<strong>展小白</strong>正在编写，旨在介绍如何使用 PHP 语言进行编程的自由图书。它以教材与指南的形式为入门者介绍 PHP 编程语言。如果你对电脑知识的了解仅限于如何保存文本文件的话，那这本书就是为你准备的。</p>
+<p><strong>本博客后续将以连载的方式为读者呈现这本书。</strong></p>
+<h2 id="关于作者"><a href="#关于作者" class="headerlink" title="关于作者"></a>关于作者</h2><p>一名 Web 开发从业者，同时也是自由软件的倡导者和拥护者。现在就职于杭州的一家互联网公司，从事后端开发相关工作。</p>
+<h2 id="有关-PHP-7"><a href="#有关-PHP-7" class="headerlink" title="有关 PHP 7"></a>有关 PHP 7</h2><p>PHP 7 是 PHP 编程语言全新的一个版本，主要在性能方面获得了极大的提升。官方的文档显示，PHP 7 可以达到 PHP 5.x 版本两倍的性能。而且兼容性非常好。对于绝大多数的应用来讲，可以不用做修改即可迁移到 PHP 7 版本。因此极力推荐。</p>
+<h2 id="献词"><a href="#献词" class="headerlink" title="献词"></a>献词</h2><p>本书献给<a href="http://www.ibiblio.org/pioneers/index.html" target="_blank" rel="noopener">创造互联网的开拓者们</a>。得益于这些先驱们对互联网上这一分享知识的土壤与环境的设想，本书才得以存在，并对他们深表感谢。</p>
+<h2 id="本书由来"><a href="#本书由来" class="headerlink" title="本书由来"></a>本书由来</h2><p>第一次使用 PHP ，被它的简单、高效所吸引。正如 PHP 7 核心开发者鸟哥所言，“我们需要去看其他的技术，但是用起来一定是用最顺手东西去解决问题”。虽然陆续使用过 Java，Python，NodeJS 等后端高级语言。但是由于 PHP 一直使用到现在，也有感情在里面，PHP 始终是用着最顺手的。</p>
+<p>市面上关于 PHP 的书籍很多，也有优秀的，但比起教程更像是一本参考手册，不利于新手的入门。PHP 官方文档是非常优秀的文档，但是可能过于简短，有些并不利于新手理解。</p>
+<p>考虑到这些因素，本书将依据 PHP 官方文档和过往实践进行编写，希望它成为一本有所用处的 PHP 语言学习指南。也同时做为对开源社区的贡献与致敬。</p>
+<p>本书需要来自它的读者的帮助，例如由你来指出书中任何部分还不够好，难以理解或整个就是错的。请<a href="bai.zhan@qq.com">写信给作者</a> 。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>作者:</span>
+                        <span>展小白</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>永久链接:</span>
+                        <span><a href="https://blog.zhanxiaobai.com/2018/08/23/a-byte-of-php-00-preface/">https://blog.zhanxiaobai.com/2018/08/23/a-byte-of-php-00-preface/</a></span>
+                    </p>
+                
+                <!-- 
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span></span>
+                    </p>
+                 -->
+                
+                     <p class="copyright-item">
+                         <span>联系我:</span>
+                         <span>关注公众号「展白说」，获取更多有价值的信息。</span>
+                     </p>
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/《简明-PHP-教程》/"># 《简明 PHP 教程》</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2018/08/26/a-byte-of-php-01-about/">《简明 PHP 教程》01 关于 PHP</a>
+            
+            
+            <a class="next" rel="next" href="/2018/08/06/tk-dk-dev-wx-small-program/">淘客多客之小程序实现入门</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 展小白 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

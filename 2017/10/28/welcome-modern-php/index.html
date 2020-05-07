@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="description" content="互联网开发，个人技术随想。">
+
+
+    <meta name="keywords" content="展白，展小白，博客，技术，随想。">
+
+
+<title>抛弃陈旧的观念，拥抱新时代的 PHP | 展小白的博客 | Zhan Xiaobai&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">展小白的博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">展小白的博客</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">展开目录</a>
+        <a onclick="go_top()">返回顶部</a>
+        <a onclick="go_bottom()">转到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "合并目录"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "展开目录"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">抛弃陈旧的观念，拥抱新时代的 PHP</h1>
+            
+                <div class="post-meta">
+                    
+                        作者: <a itemprop="author" rel="author" href="/">展小白</a>
+                    
+
+                    
+                        <span class="post-time">
+                        发布于: <a href="#">十月 28, 2017&nbsp;&nbsp;6:12:10</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    分类:
+                            
+                                <a href="/categories/技术/">技术</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>根据 PHP 官方的消息，最近，PHP 开发者团队发布了 PHP 7.0.25，修复了一些安全问题。自从 PHP 7 的发布，给 PHP 带来了很大性能的提升，也进一步加速了现代 PHP 的重生。相信有很多人还秉持着传统的旧观念在看待和使用 PHP，今天我们来聊一聊新时代的 PHP。</p>
+<h2 id="什么是-PHP"><a href="#什么是-PHP" class="headerlink" title="什么是 PHP"></a>什么是 PHP</h2><p>PHP（全称：PHP：Hypertext Preprocessor，即 “PHP：超文本预处理器”）是一种开源的通用计算机脚本语言，尤其适用于网络开发并可嵌入 HTML 中使用。PHP 的语法借鉴吸收 C 语言、Java 和 Perl 等流行计算机语言的特点，易于一般程序员学习。PHP 的主要目标是允许网络开发人员快速编写动态页面，但 PHP 也被用于其他很多领域。</p>
+<h2 id="PHP-的历史"><a href="#PHP-的历史" class="headerlink" title="PHP 的历史"></a>PHP 的历史</h2><p>PHP 诞生于 90 年代互联网的兴起，常和 Apache 或 Nginx 等 Web 服务器一起，提供动态的内容服务。不过 PHP 也可以像 Bash、Python 一样构建强大的命令行工具。这个特性有不少人不知道。</p>
+<p>1995 年，丹麦程序员拉斯姆斯·勒多夫为了维护他的个人网页，用 C 语言开发了 PHP。1997 年，以色列程序员 Zeev Suraski 和 Andi Gutmans，重写了 PHP 的解释引擎，最后发布了 PHP 3，从此，开始了 PHP 核心的改写，并在 1999 年成立了 Zend Technologies 来管理 PHP 的开发。2000 年，发布了 PHP 4。2004 年，发布了 PHP 5，包含了许多新特性，像强化的物件导向功能、引入 PDO，以及许多性能上的增强。</p>
+<p>2015 年，PHP 7 发布，主要改进有 PHPNG、JIT 引擎、抽象语法树编译、异步编程。PHPNG 项目是国内鸟哥发起的 PHP 引擎重构项目，取得了很大的成就，也促成了 PHP 7 的发布。</p>
+<h2 id="新时代的-PHP"><a href="#新时代的-PHP" class="headerlink" title="新时代的 PHP"></a>新时代的 PHP</h2><p>现在，PHP 语言发展迅速，由来自全球的几十名核心开发者提供支持。依托于一大批优秀的工具，也使开发和部署变得更容易，更便捷。</p>
+<p>版本控制软件（如：Git）能帮助我们维护一个可审查的代码历史，可以创建代码分支，fork 代码和合并代码。虚拟化工具（如：Vagrant）以及配置工具（如：Ansible、Chef 和 Puppet）使我们可以搭建和生产服务器一致的本地开发环境。轻量级的虚拟化解决方案 Docker 使我们可以在一台机器创建不同运行环境，来运行多个网站。依赖管理工具 Composer 方便用来使用专门的 PHP 组件。我们的代码遵循 PSR（代码风格标准），方便使用别人的代码，或者被别人使用。PHPUnit 等工具彻底测试我们的代码。将应用放在 Nginx 这样的 Web 服务器，使用 PHP 的 FastCGI 进程管理应用，而且使使用 Opcode 缓存和对象缓存来提升应用的性能。</p>
+<p>现代的 PHP 有许多令人兴奋的新特性，使得 PHP 越来越好。</p>
+<h3 id="命名空间"><a href="#命名空间" class="headerlink" title="命名空间"></a>命名空间</h3><p>这是个非常重要的特性，命名空间在 PHP 5.3.0 引入，其作用是按照一种虚拟层次结构组织 PHP 代码，这种层次结构类似操作系统中文件系统的目录结构。现代的 PHP 组件和框架都放在各自全局唯一的厂商命名空间中，以免与其他厂商使用的常见类名冲突。</p>
+<h4 id="声明命名空间"><a href="#声明命名空间" class="headerlink" title="声明命名空间"></a>声明命名空间</h4><p>每个 PHP 类、接口、函数和常量都在命名空间里。命名空间在 PHP 文件 &lt;? 之后第一行声明，以 namespace 开头。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">namespase Zinaer;</span><br></pre></td></tr></table></figure>
+
+<p>命名空间，顶层建议设置厂商的名字，不容易重复，比如上边厂商名称是 Zinaer。在它下面设置的 PHP 类、接口、函数和变量都和它有关系。</p>
+<p>子命名空间的声明和上边的类似，需要注意的是使用 \ 将命名空间和子命名空间分开。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">namespace Zinaer\Http</span><br></pre></td></tr></table></figure>
+
+<p>在同一个命名空间或子命名空间中的所有类没必要在同一个 PHP 文件中声明，只要在 PHP 文件顶部指定命名空间或子命名空间，这个文件中的所有代码就是这个命名空间的一部分。所以可以在不同文件编写同一个命名空间的多个类。</p>
+<h4 id="导入和别名"><a href="#导入和别名" class="headerlink" title="导入和别名"></a>导入和别名</h4><p>导入是指，如果在 PHP 文件中想使用哪个命名空间、类、接口、函数和常量，只需要导入就可以了。</p>
+<p>别名是为了使用简单的名称引用导入的类、接口、函数或变量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">namespace App\Http\Controllers;</span><br><span class="line"></span><br><span class="line">use Illuminate\Http\Request;</span><br><span class="line"></span><br><span class="line">class UserController extends Controller</span><br><span class="line">&#123;</span><br><span class="line">    /**</span><br><span class="line">     * 储存一个新用户。</span><br><span class="line">     *</span><br><span class="line">     * @param  Request  $request</span><br><span class="line">     * @return Response</span><br><span class="line">     */</span><br><span class="line">    public function store(Request $request)</span><br><span class="line">    &#123;</span><br><span class="line">        $name = $request-&gt;input(&apos;name&apos;);</span><br><span class="line"></span><br><span class="line">        //</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用 use 导入了 Illuminate\Http\Request，从而后面的代码可以直接使用 Request，不用每次调用都使用完整的 Illuminate\Http\Request。</p>
+<p>如果你足够懒，还可以使用别名。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">namespace App\Http\Controllers;</span><br><span class="line"></span><br><span class="line">use Illuminate\Http\Request as Res;</span><br></pre></td></tr></table></figure>
+
+<p>后面的代码就可以使用 Res 代替 Request。</p>
+<p>还可以导入函数（use func）或常量（use constant），比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">use func Namespace\functionName;</span><br><span class="line"></span><br><span class="line">functionName();</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use contant Namespace\CONST_NAME;</span><br><span class="line"></span><br><span class="line">echo CONST_NAME;</span><br></pre></td></tr></table></figure>
+
+<p>他们同样支持别名，和类别名使用方式一样。</p>
+<h4 id="全局命名空间"><a href="#全局命名空间" class="headerlink" title="全局命名空间"></a>全局命名空间</h4><p>有些代码可能没有命名空间，这些代码在全局命名空间中。需要在类、接口、函数或常量的名称前加 \ 符号进行使用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">namespace Zinaer\App;</span><br><span class="line"></span><br><span class="line">class User</span><br><span class="line">&#123;</span><br><span class="line">	public function login()</span><br><span class="line">	&#123;</span><br><span class="line">		throw new \Exception();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="自动加载"><a href="#自动加载" class="headerlink" title="自动加载"></a>自动加载</h3><p>命名空间奠定了 PSR-4 自动加载标准，大多数现代 PHP 组件都使用了自动加载模式，使用依赖管理器 Composer 可以自动项目的依赖。</p>
+<h3 id="使用接口"><a href="#使用接口" class="headerlink" title="使用接口"></a>使用接口</h3><p>学会使用接口，可以容易的把第三方 PHP 组件集成到自己的应用中。我们不关心第三方代码是怎么实现接口的，只关心第三方代码是否实现了指定接口。</p>
+<p>在上文介绍的 use Illuminate\Http\Request; 就是导入了 Request 接口。这个接口定义了，获取请求路径、获取请求的 URL、获取请求方法等功能。</p>
+<h3 id="Trait-代码复用"><a href="#Trait-代码复用" class="headerlink" title="Trait (代码复用)"></a>Trait (代码复用)</h3><p>Trait 是 PHP 5.4.0 引入的新概念，既像类，又像接口，其实都不是。Trait 有两个作用，表明类可以做什么，提供模块化的实现。</p>
+<h4 id="为什么使用-Trait"><a href="#为什么使用-Trait" class="headerlink" title="为什么使用 Trait"></a>为什么使用 Trait</h4><p>PHP 语言使用一种典型的继承模型。在这个模型中，我们先编写一个通用的父类，实现基本功能，然后再集成它实现具体的类，这叫继承层次结构。但是，如果是两个无关的 PHP 类，具有某些类似的行为，应该怎么做？</p>
+<p>第一种方法：写个父类，让两个子类继承他，这种方法，强制让两个无关的类，继承一个祖先，破坏了继承层次。第二种方法：创建一个接口，定义需要哪些接口，然后在两个类中都实现这个接口。这种虽然保留了继承结构，但是需要重复实现相同的功能。不符合 DRY 原则。</p>
+<p>这时候就产生了 Trait，Trait 能把模块化的实现方式注入多个无关的类中。</p>
+<h4 id="如何创建-Trait"><a href="#如何创建-Trait" class="headerlink" title="如何创建 Trait"></a>如何创建 Trait</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">trait MyTrait &#123;</span><br><span class="line">	// 这里是实现</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>像定义类和接口一样，一个文件定义一个 Trait 是个良好的习惯。Trait 只需要定义属性和方法，其余什么都不用做。</p>
+<h4 id="如何使用-Trait"><a href="#如何使用-Trait" class="headerlink" title="如何使用 Trait"></a>如何使用 Trait</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">class MyClass</span><br><span class="line">&#123;</span><br><span class="line">	use MyTrait;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h3><p>PHP 生成器是 PHP 5.5.0 引入的功能。生成器就是简单的迭代器。这是个很有用的功能，但往往没有被利用起来。</p>
+<p>标准 PHP 迭代器经常在内存中执行迭代操作，这要预先计算出数据集，更不要说用特定方式计算大量数据，性能影响严重。此时可以使用生成器，即时计算并产出后续值，不占用宝贵的内存资源。</p>
+<h4 id="创建生成器"><a href="#创建生成器" class="headerlink" title="创建生成器"></a>创建生成器</h4><p>生成器是 PHP 函数，需要在函数中一次或多次使用 yield 关键字。与普通 PHP 函数不同的是，从不返回值，只产出值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">function myGenerator() &#123;</span><br><span class="line">	yield &apos;value1&apos;;</span><br><span class="line">	yield &apos;value2&apos;;</span><br><span class="line">	yield &apos;value3&apos;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>调用 PHP 生成器函数时，PHP 会返回一个属于 Generator 类的对象，这个对象可以使用 foreach() 函数迭代。每次迭代，PHP 会要求 Generator 实例计算并提供下一个迭代的值。生成器的优雅体现在，每次产出一个值后，生成器内部状态都会停顿，请求下一个值时，内部状态又会恢复。直到函数结束，或者空的 return; 语句。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">foreach (myGeneratro() as $value) &#123;</span><br><span class="line">	echo $value, PHP_EOL;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><p>闭包是指在创建时封装周围状态的函数，即便包含闭包的环境不存在了，闭包中封装的状态还存在。匿名函数是没有名称的函数，匿名函数可以赋值给变量，也能像其他对象一样传递。同样支持调用和传参。理论上，闭包和匿名函数是不同的概念，但在 PHP 中是一样的。</p>
+<p>闭包和匿名函数是伪装成函数的对象，虽然语法和普通函数一样。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$closure = function ($name) &#123;</span><br><span class="line">	return sprintf(&apos;Hello %s&apos;, $name);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">echo $closure(&apos;Zinaer&apos;);</span><br><span class="line">// Hello Zinaer</span><br></pre></td></tr></table></figure>
+
+<p>$closure 变量就是一个闭包。</p>
+<p>通常把闭包当做函数和方法的回调使用，这样写出的代码更简洁，更清晰。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$numberPlusOne = array_map(function ($number) &#123;</span><br><span class="line">	return $number + 1;</span><br><span class="line">&#125;, [1, 2, 3]);</span><br><span class="line">print_r($numberPlusOne);</span><br><span class="line">// [2, 3, 4]</span><br></pre></td></tr></table></figure>
+
+<h3 id="附加状态"><a href="#附加状态" class="headerlink" title="附加状态"></a>附加状态</h3><p>常使用 bindto() 方法或 use 关键字，为 PHP 闭包附加状态。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">function enclosePerson($name) &#123;</span><br><span class="line">  return function ($doCommand) use ($name) &#123;</span><br><span class="line">	  return sprintf(&apos;%s, %s&apos;, $name, $doCommand);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">// 封装 `Zinaer` 到闭包</span><br><span class="line">$zinaer = enclosePerson(&apos;Zinaer&apos;);</span><br><span class="line"></span><br><span class="line">// 传参，调用闭包</span><br><span class="line">echo $zinaer(&apos;it is good!&apos;);</span><br><span class="line">// Zinaer, it is good!</span><br></pre></td></tr></table></figure>
+
+<h3 id="Zend-OPcache"><a href="#Zend-OPcache" class="headerlink" title="Zend OPcache"></a>Zend OPcache</h3><p>从 PHP 5.5.0 开始，PHP 内置了 Zend OPcache（字节码缓存），默认没有开启，需要主动开启。</p>
+<p>为什么需要字节码缓存？</p>
+<p>PHP 是解释型语言，PHP 解析器执行 PHP 脚本时会解析 PHP 脚本代码，把 PHP 编译成一系列 Zend 操作码，然后执行字节码。每次请求都是这样，会消耗很多资源。字节码缓存能预先存储编译好的 PHP 字节码，这样，执行 PHP 脚本时，PHP 解释器不用每次都读取、解析和编译 PHP 代码。从内存中读取预先编译好的字节码，然后立即执行，不但节省时间，同时也提高了应用的性能。</p>
+<h3 id="内置的-HTTP-服务器"><a href="#内置的-HTTP-服务器" class="headerlink" title="内置的 HTTP 服务器"></a>内置的 HTTP 服务器</h3><p>从 PHP 5.4.0 起，PHP 内置了 Web 服务器。在不安装 Nginx 等 Web 服务器的情况下，这个服务器可以实现在本地编写代码和预览。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ php -S localhost:4000</span><br></pre></td></tr></table></figure>
+
+<p>上述命令会启动一个 PHP Web 服务器。如果需要局域网中其它机器访问可以使用 0.0.0.0 代替 localhost。</p>
+<h4 id="查看使用的是否是内置服务器"><a href="#查看使用的是否是内置服务器" class="headerlink" title="查看使用的是否是内置服务器"></a>查看使用的是否是内置服务器</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">if (php_sapi_name() === &apos;cli-server&apos;) &#123;</span><br><span class="line">	// PHP 内置的 Web 服务器</span><br><span class="line">&#125;</span><br><span class="line">else &#123;</span><br><span class="line">	// 其它服务器</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>PHP 内置服务器不能用于生产环境，只能在本地开发环境中使用。</p>
+<h3 id="标准"><a href="#标准" class="headerlink" title="标准"></a>标准</h3><p>PHP 组件和框架有很多，但是旧的框架是单独开发的，不能与其它框架共享代码。多位 PHP 框架的开发者意识到了这个问题，并成立了 PHP-FIG 进行规范的制定，目的是实现框架的互操作性，比如：通过接口、自动加载机制和标准的风格，让框架相互合作。</p>
+<p>PSR 是 PHP-FIG 制定定的规范，目前已经表决通过了 6 套标准，并得到大部分 PHP 框架的支持和认可。其中包括：</p>
+<ul>
+<li>基础编码规范</li>
+<li>编码风格规范</li>
+<li>日志接口规范</li>
+<li>自动加载规范</li>
+<li>缓存接口规范</li>
+<li>HTTP 消息接口规范</li>
+</ul>
+<h3 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h3><p>现代 PHP 应该较少使用庞大的框架，而是应该更多的使用具有互操作性的专门组件制定解决方案。其他开发者已经用了无数时间创建、优化和测试专门的组件，以便让组件尽量做好一件事。如果想快速开发更好的应用，不是使用这些组件，而是自己重新造轮子，是非常不明智的。</p>
+<p>那么如何挑选组件？</p>
+<p>好的组件应该具有作用单一、小型、合作、测试良好、文档完善的特征。我们可以在 Packagist 中查找符合这些特征的组件，然后用 Composer 来安装管理这些组件。</p>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>测试是开发 PHP 过程中的重要一步，但往往被忽视了。测试应该贯穿于开发应用的开始、过程中和结束后。</p>
+<p>为什么测试？</p>
+<p>很简单，通过测试可以确保 PHP 应用始终按照我们预期的方式运行。</p>
+<p>测试是什么？</p>
+<p>我们应该测试应用的最小部分，比如 PHP 应用由类、方法和函数组成。所以应该隔离测试他们，确保表现符合预期，这样组合在一起才能确保整个应用能正常运行，这种测试叫单元测试。</p>
+<p>为了进一步确保应用没问题，还要使用自动化测试工具来验证应用的整体行为，这种测试叫功能测试。</p>
+<p>可以使用 PHPUnit 编写和运行测试，使用 Travis CI 进行自动化测试。</p>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>上边简单介绍了新时代 PHP 的一些特性、组件、测试等，是否对新时代 PHP 有了新的认识 ？那么就抛弃陈旧的观念，拥抱新时代的 PHP 吧！</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>作者:</span>
+                        <span>展小白</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>永久链接:</span>
+                        <span><a href="https://blog.zhanxiaobai.com/2017/10/28/welcome-modern-php/">https://blog.zhanxiaobai.com/2017/10/28/welcome-modern-php/</a></span>
+                    </p>
+                
+                <!-- 
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span></span>
+                    </p>
+                 -->
+                
+                     <p class="copyright-item">
+                         <span>联系我:</span>
+                         <span>关注公众号「展白说」，获取更多有价值的信息。</span>
+                     </p>
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/PHP/"># PHP</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2017/10/29/phpstrom/">面对多语言开发，你是怎么选择编辑器的？</a>
+            
+            
+            <a class="next" rel="next" href="/2017/10/25/zinaer-skm/">Zinaer SKM - 一款轻量强大的 SSH 密钥管理工具</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 展小白 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

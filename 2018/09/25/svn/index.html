@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="description" content="互联网开发，个人技术随想。">
+
+
+    <meta name="keywords" content="展白，展小白，博客，技术，随想。">
+
+
+<title>简明 SVN 教程 | 展小白的博客 | Zhan Xiaobai&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">展小白的博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">展小白的博客</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">展开目录</a>
+        <a onclick="go_top()">返回顶部</a>
+        <a onclick="go_bottom()">转到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "合并目录"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "展开目录"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">简明 SVN 教程</h1>
+            
+                <div class="post-meta">
+                    
+                        作者: <a itemprop="author" rel="author" href="/">展小白</a>
+                    
+
+                    
+                        <span class="post-time">
+                        发布于: <a href="#">九月 25, 2018&nbsp;&nbsp;18:33:58</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    分类:
+                            
+                                <a href="/categories/技术/">技术</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>最近新入职的公司团队，有用到 SVN 进行版本控制，所以对 SVN 进行了详细的学习与了解。</p>
+<h2 id="关于版本控制"><a href="#关于版本控制" class="headerlink" title="关于版本控制"></a>关于版本控制</h2><p>版本控制是一种记录一个或若干文件内容变化，以便将来查阅特定版本修订情况的系统。</p>
+<h2 id="本地版本控制系统"><a href="#本地版本控制系统" class="headerlink" title="本地版本控制系统"></a>本地版本控制系统</h2><p>许多人习惯用复制整个项目目录的方式来保存不同的版本，或许还会改名加上备份时间以示区别。 这么做唯一的好处就是简单，但是特别容易犯错。 有时候会混淆所在的工作目录，一不小心会写错文件或者覆盖意想外的文件。</p>
+<p>为了解决这个问题，人们很久以前就开发了许多种本地版本控制系统，大多都是采用某种简单的数据库来记录文件的历次更新差异。</p>
+<p><img src="https://git-scm.com/book/en/v2/images/local.png" alt></p>
+<h2 id="集中化的版本控制系统"><a href="#集中化的版本控制系统" class="headerlink" title="集中化的版本控制系统"></a>集中化的版本控制系统</h2><p>接下来人们又遇到一个问题，如何让在不同系统上的开发者协同工作？ 于是，集中化的版本控制系统（Centralized Version Control Systems，简称 CVCS）应运而生。 这类系统，诸如 CVS、Subversion 以及 Perforce 等，都有一个单一的集中管理的服务器，保存所有文件的修订版本，而协同工作的人们都通过客户端连到这台服务器，取出最新的文件或者提交更新。 多年以来，这已成为版本控制系统的标准做法。</p>
+<p><img src="https://git-scm.com/book/en/v2/images/centralized.png" alt></p>
+<p>这种做法带来了许多好处，特别是相较于老式的本地 VCS 来说。 现在，每个人都可以在一定程度上看到项目中的其他人正在做些什么。 而管理员也可以轻松掌控每个开发者的权限，并且管理一个 CVCS 要远比在各个客户端上维护本地数据库来得轻松容易。</p>
+<p>事分两面，有好有坏。 这么做最显而易见的缺点是中央服务器的单点故障。 如果宕机一小时，那么在这一小时内，谁都无法提交更新，也就无法协同工作。 如果中心数据库所在的磁盘发生损坏，又没有做恰当备份，毫无疑问你将丢失所有数据——包括项目的整个变更历史，只剩下人们在各自机器上保留的单独快照。 本地版本控制系统也存在类似问题，只要整个项目的历史记录被保存在单一位置，就有丢失所有历史更新记录的风险。</p>
+<h2 id="分布式版本控制系统"><a href="#分布式版本控制系统" class="headerlink" title="分布式版本控制系统"></a>分布式版本控制系统</h2><p>基于上面的问题，出现了分布式版本控制系统（Distributed Version Control System，简称 DVCS）。 在这类系统中，像 Git、Mercurial、Bazaar 以及 Darcs 等，客户端并不只提取最新版本的文件快照，而是把代码仓库完整地镜像下来。 这么一来，任何一处协同工作用的服务器发生故障，事后都可以用任何一个镜像出来的本地仓库恢复。 因为每一次的克隆操作，实际上都是一次对代码仓库的完整备份。</p>
+<p><img src="https://git-scm.com/book/en/v2/images/distributed.png" alt></p>
+<p>更进一步，许多这类系统都可以指定和若干不同的远端代码仓库进行交互。籍此，你就可以在同一个项目中，分别和不同工作小组的人相互协作。 你可以根据需要设定不同的协作流程，比如层次模型式的工作流，而这在以前的集中式系统中是无法实现的。</p>
+<h2 id="针对现状优化"><a href="#针对现状优化" class="headerlink" title="针对现状优化"></a>针对现状优化</h2><p>基于简单、使用场景有限、良好的权限管理或者其它原因采用了 SVN 进行版本控制，那么我们就需要想办法弥补它的不足，针对单点故障的问题，就要对版本库进行定时全量和增量的备份，以确保源码的安全。</p>
+<h2 id="关于-SVN"><a href="#关于-SVN" class="headerlink" title="关于 SVN"></a>关于 SVN</h2><p>Subversion(SVN) 是一个开源的集中化的版本控制系統，会记住每一次文件的变动，这样你可以将文件恢复到旧的版本或者浏览文件的历史变动。</p>
+<h2 id="SVN-的一些概念"><a href="#SVN-的一些概念" class="headerlink" title="SVN 的一些概念"></a>SVN 的一些概念</h2><ul>
+<li>repository（源代码库）：源代码统一存放的地方</li>
+<li>checkout（提取）：当你手上没有源代码的时候，你需要从 repository checkout 一份</li>
+<li>commit（提交）：当你已经修改了代码，你就需要 commit 到 repository</li>
+<li>update（更新）：当你已经 checkout 了一份源代码，update 一下你就可以和 repository 上的源代码同步，你手上的代码就会有最新的变更</li>
+</ul>
+<h2 id="SVN-生命周期"><a href="#SVN-生命周期" class="headerlink" title="SVN 生命周期"></a>SVN 生命周期</h2><ul>
+<li>创建版本库：create 操作创建一个新的版本库，版本库用于存放文件，包括了每次修改的历史。</li>
+<li>检出：checkout 操作从版本库创建一个工作副本，作为开发者私人的工作空间，可以进行内容的修改，然后提交到版本库中。</li>
+<li>更新：update 操作更新版本库，将工作副本与版本库进行同步。因为版本库是整个团队共用的，当其他人提交了改动，你的工作副本就会过期。</li>
+<li>执行变更：检出之后，可以进行添加、编辑、删除、重命名、移动文件/目录等变更操作。当最终执行了 commit 操作后，就对版本库进行了相应变更。</li>
+<li>复查变化：当你对工作副本进行了一些修改后，你的工作副本就会比版本库新，在 commit 操作之前使用 status/diff 操作复查下你的修改是一个好的习惯。</li>
+<li>修复错误：如果你对工作副本做了许多修改，当时不想要这些修改了，revert 操作可以重置工作副本的修改，恢复到原始状态。</li>
+<li>解决冲突：合并的时候可能发生冲突，使用 merge 操作进行合并。因为 SVN 合并是以行为单位的，只要不是修改的同一行，SVN 都会自动合并，如果是同一行，SVN 会提示冲突，需要手动进行确认修改，合并代码。其中 resolve 操作可以帮助找出冲突。</li>
+<li>提交更改：将文件/目录添加到待变更列表，使用 commit 操作将更改从工作副本更新到版本库，提交是添加注释说明，是个好的习惯。</li>
+</ul>
+<h2 id="SVN-的一些优点"><a href="#SVN-的一些优点" class="headerlink" title="SVN 的一些优点"></a>SVN 的一些优点</h2><ul>
+<li>原子提交，一次提交不管是单个还是多个文件，都是作为一个整体提交的。在这当中发生的意外例如传输中断，不会引起数据库的不完整和数据损坏。</li>
+<li>目录与文件都能进行版本控制。</li>
+<li>重命名、复制、删除文件等动作都保存在版本历史记录当中。</li>
+</ul>
+<h2 id="SVN-安装"><a href="#SVN-安装" class="headerlink" title="SVN 安装"></a>SVN 安装</h2><h3 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h3><p>正常的 Windows 软件安装方法，下载地址：<a href="http://subversion.apache.org/packages.html#windows" target="_blank" rel="noopener">Subversion</a>。</p>
+<h3 id="CentOS"><a href="#CentOS" class="headerlink" title="CentOS"></a>CentOS</h3><p>大多数 GNU/Linux 发行版系统自带了Subversion ，所以它很有可能已经安装在你的系统上了。可以使用下面命令检查是否安装了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ svn --version</span><br></pre></td></tr></table></figure>
+
+<p>如果没有安装可以使用命令安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum install subversion</span><br></pre></td></tr></table></figure>
+
+<h3 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h3><p>安装命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt install subversion</span><br></pre></td></tr></table></figure>
+
+<h2 id="SVN-服务器配置"><a href="#SVN-服务器配置" class="headerlink" title="SVN 服务器配置"></a>SVN 服务器配置</h2><p>新建版本库目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir /opt/svn</span><br></pre></td></tr></table></figure>
+
+<p>创建版本库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ svnadmin create /opt/svn/zinaer</span><br></pre></td></tr></table></figure>
+
+<p>在目录 <code>/opt/svn/zinaer/conf</code> 中有 <code>svnserve.conf</code>、<code>passwd</code>、<code>authz</code> 文件配置相关用户和权限。</p>
+<p>服务配置文件 <code>svnserve.conf</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[general]</span><br><span class="line">anon-access = none</span><br><span class="line">auth-access = write</span><br><span class="line">password-db = passwd</span><br><span class="line">authz-db = authz</span><br><span class="line">realm = zinaer</span><br></pre></td></tr></table></figure>
+
+<p>说明：</p>
+<ul>
+<li>anon-access：控制非鉴权用户访问版本库的权限。取值：write、read 和 none。缺省值：read。</li>
+<li>auth-access：控制鉴权用户访问版本库的权限。取值：write、read 和 none。缺省值：write。</li>
+<li>authz-db：指定权限配置文件名。用于实现以路径为基础的访问控制。如果不是绝对路径，就是相对 conf 目录的相对路径。缺省值：authz。</li>
+<li>realm：指定版本库的认证域，即在登录时提示的认证域名称。如果两个版本库的认证域相同，建议使用相同的用户名口令数据文件。缺省值：一个 UUID（全局唯一标识）。</li>
+</ul>
+<p>用户名口令文件 <code>passwd</code></p>
+<p>由 <code>svnserve.conf</code> 的配置项 <code>password-db</code> 指定。格式：<code>&lt;用户名&gt; = &lt;口令&gt;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[users]</span><br><span class="line">admin = admin</span><br><span class="line">zinaer = 123456</span><br></pre></td></tr></table></figure>
+
+<p>权限配置文件 <code>authz</code></p>
+<p>由 <code>svnserve.conf</code> 的配置项 <code>authz-db</code> 指定。格式：<code>&lt;用户组&gt; = &lt;用户列表&gt;</code>、<code>[&lt;版本库名&gt;:&lt;路径&gt;]</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[groups]</span><br><span class="line">g_admin = admin,zinaer</span><br><span class="line"></span><br><span class="line">[zinaer:/]</span><br><span class="line">@g_admin = rw</span><br><span class="line">* = r</span><br></pre></td></tr></table></figure>
+
+<p>说明：<code>@</code> 表示一个组名，而不是用户名，<code>*</code> 表示其余所有人。</p>
+<p>启动服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ svnserve -d -r 目录 --listen-port 端口号</span><br></pre></td></tr></table></figure>
+
+<p><code>-r</code> 指定版本库根目录 <code>--listen-port</code> 指定 SVN 监听端口，默认监听 3690</p>
+<p><code>-r</code> 配置决定了不同的访问方式。</p>
+<p>方式一：<code>-r</code> 直接指定到版本库（单库模式）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ svn serve -d -r /opt/svn/zinaer</span><br></pre></td></tr></table></figure>
+
+<p>authz 配置文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[groups]</span><br><span class="line">admin = admin,zinaer</span><br><span class="line">dev = zinaer001</span><br><span class="line">[/]</span><br><span class="line">@admin = rw</span><br><span class="line">zinaer = r</span><br></pre></td></tr></table></figure>
+
+<p>客户端使用 URL：svn://192.168.10.10/ 即可访问 zinaer 版本库。</p>
+<p>方法二：指定到版本库的上级目录（多库模式）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ svn serve -d -r /opt/svn</span><br></pre></td></tr></table></figure>
+
+<p>authz 配置文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[groups]</span><br><span class="line">admin = admin,zinaer</span><br><span class="line">dev = zinaer001</span><br><span class="line">[zinaer:/]</span><br><span class="line">@admin = rw</span><br><span class="line">zinaer001 = r</span><br><span class="line">[zinaer001:/]</span><br><span class="line">@admin = rw</span><br><span class="line">zinaer001 = r</span><br></pre></td></tr></table></figure>
+
+<p>客户端使用 URL：svn://192.168.10.10/zinaer 即可访问 zinaer 版本库。</p>
+<h2 id="SVN-检出操作"><a href="#SVN-检出操作" class="headerlink" title="SVN 检出操作"></a>SVN 检出操作</h2><p>我们已经创建了版本库 zinaer，并且启动了服务，URL 为：svn://192.168.10.10/zinaer 用户 zinaer 由读写权限。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ svn checkout svn://192.168.10.10/zinaer --username zinaer --password 123456</span><br></pre></td></tr></table></figure>
+
+<p>查看版本库详细信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ svn info</span><br></pre></td></tr></table></figure>
+
+<h2 id="SVN-解决冲突"><a href="#SVN-解决冲突" class="headerlink" title="SVN 解决冲突"></a>SVN 解决冲突</h2><p>假设账号 admin 和 zinaer 都创建了版本库副本，在版本号是 1 的时候，都更新了 hello.txt 文件，admin 在修改完后提交到了服务器，这时候文件版本变成了 2。同时 zinaer 在版本 1 的时候也进行了修改，这时候提交到服务器由于不是在版本 2 上进行的修改，导致提交失败。</p>
+<p>现在我们来处理冲突，使用命令查看更改：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ svn diff</span><br><span class="line">Index: hello.txt</span><br><span class="line">===================================================================</span><br><span class="line">--- hello.txt   (revision 3)</span><br><span class="line">+++ hello.txt   (working copy)</span><br><span class="line">@@ -1 +1 @@</span><br><span class="line">-hello world https://skm.zinaer.com</span><br><span class="line">+hello world https://skm.zinaer.com 123</span><br></pre></td></tr></table></figure>
+
+<p>如果我们直接提交会提示什么</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ svn commit -m &apos;change first&apos;</span><br><span class="line">Sending        hello.txt</span><br><span class="line">Transmitting file data .done</span><br><span class="line">Committing transaction...</span><br><span class="line">svn: E160028: Commit failed (details follow):</span><br><span class="line">svn: E160028: File &apos;/hello.txt&apos; is out of date</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，不能成功提交。为了避免代码被相互覆盖，SVN 不允许我们这样操作，需要先 update</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ svn update</span><br><span class="line">Updating &apos;.&apos;:</span><br><span class="line">C    hello.txt</span><br><span class="line">Updated to revision 4.</span><br><span class="line">Summary of conflicts:</span><br><span class="line">  Text conflicts: 1</span><br></pre></td></tr></table></figure>
+
+<p>此时，和版本库已经同步了，可以进行 commit 了。</p>
+<h2 id="SVN-提交操作"><a href="#SVN-提交操作" class="headerlink" title="SVN 提交操作"></a>SVN 提交操作</h2><p>我们在版本库中添加一个 README.md 文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cat README.md</span><br><span class="line"># 简明 SVN 教程</span><br></pre></td></tr></table></figure>
+
+<p>查看状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ svn status</span><br><span class="line">?       README.md</span><br></pre></td></tr></table></figure>
+
+<p><code>?</code> 代表 <code>README.md</code> 还没有加入版本控制中。</p>
+<p>将文件加入版本控制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ svn add README.md</span><br><span class="line">A         README.md</span><br></pre></td></tr></table></figure>
+
+<p><code>A</code> 代表加入了版本控制，现在需要将其更新到版本库中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ svn commit -m &apos;add README.md&apos;</span><br><span class="line">Adding         README.md</span><br><span class="line">Transmitting file data .done</span><br><span class="line">Committing transaction...</span><br><span class="line">Committed revision 6.</span><br></pre></td></tr></table></figure>
+
+<p><code>-m</code> 选项用于添加注释信息。</p>
+<h2 id="SVN-版本回退"><a href="#SVN-版本回退" class="headerlink" title="SVN 版本回退"></a>SVN 版本回退</h2><p>如果我们想放弃对文件的修改，可以使用 <code>revert</code> 命令。</p>
+<p>我们对 README.md 文件进行修改并查看状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ svn status</span><br><span class="line">M       README.md</span><br></pre></td></tr></table></figure>
+
+<p>现在我们进行撤销操作，更改到未修改时的状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ svn revert README.md</span><br><span class="line">Reverted &apos;README.md&apos;</span><br></pre></td></tr></table></figure>
+
+<p><code>revert</code> 不仅仅可以使单个文件恢复原状，而且可以对整个目录恢复。使用命令 <code>-R</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ svn revert -R zinaer</span><br></pre></td></tr></table></figure>
+
+<p>如果想恢复一个已经提交的版本，相当于我们需要撤销旧版本所有的更改然后提交一个新版本。比如：从版本 8 恢复到版本 7</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ svn merge -r 8:7 README.md</span><br></pre></td></tr></table></figure>
+
+<h2 id="SVN-查看历史消息"><a href="#SVN-查看历史消息" class="headerlink" title="SVN 查看历史消息"></a>SVN 查看历史消息</h2><ul>
+<li>svn log：用来展示 svn 的版本作者、日期、路径等。</li>
+<li>svn diff：用来显示特定修改的行级详细信息。</li>
+<li>svn cat：取得在特定版本的某文件显示在当前屏幕。</li>
+<li>svn list：显示一个目录或某一个版本存在的文件。</li>
+</ul>
+<h2 id="SVN-分支"><a href="#SVN-分支" class="headerlink" title="SVN 分支"></a>SVN 分支</h2><p>如果希望开发进程分开成两条不同的线路时，创建不同的分支进行开发是个很好的方式。</p>
+<p>分支其实就是主线的一个 copy 版，不过分支同样具有版本控制功能，并且和主分支相互独立，最后可以将分支合并到主分支，从而成为一个项目。</p>
+<p>我们在本地创建一个 <code>zhanbai</code> 分支</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ ls</span><br><span class="line">branches/  tags/  trunk/</span><br><span class="line"></span><br><span class="line">$ svn copy trunk/ branches/zhanbai</span><br><span class="line">A         branches\zhanbai</span><br></pre></td></tr></table></figure>
+
+<p>查看状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ svn status</span><br><span class="line">A  +    branches\zhanbai</span><br></pre></td></tr></table></figure>
+
+<p>提交新的分支到版本库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ svn commit -m &apos;add zhanbai&apos;</span><br><span class="line">Adding         branches\zhanbai</span><br><span class="line">Committing transaction...</span><br><span class="line">Committed revision 9.</span><br></pre></td></tr></table></figure>
+
+<p>现在我们开始在 <code>zhanbai</code> 分支进行开发，创建 <code>index.html</code> 文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ cd branches/zhanbai/</span><br><span class="line"></span><br><span class="line">$ ls</span><br><span class="line">hello.txt  index.html  README.md</span><br></pre></td></tr></table></figure>
+
+<p>将 <code>index.html</code> 加入版本控制，并提交到版本库中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ svn status</span><br><span class="line">?       index.html</span><br><span class="line"></span><br><span class="line">$ svn add index.html</span><br><span class="line">A         index.html</span><br><span class="line"></span><br><span class="line">$ svn commit -m &apos;add index.html&apos;</span><br><span class="line">Adding         index.html</span><br><span class="line">Transmitting file data .done</span><br><span class="line">Committing transaction...</span><br><span class="line">Committed revision 10.</span><br></pre></td></tr></table></figure>
+
+<p>切换到 <code>trunk</code> 分支，并更新，然后将 <code>zhanbai</code> 分支合并到 <code>trunk</code> 中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ svn merge ../branches/zhanbai/</span><br><span class="line">--- Merging r10 into &apos;.&apos;:</span><br><span class="line">A    index.html</span><br><span class="line">--- Recording mergeinfo for merge of r10 into &apos;.&apos;:</span><br><span class="line"> G   .</span><br></pre></td></tr></table></figure>
+
+<p>此时，<code>trunk</code> 中就多了 <code>index.html</code> 文件。然后，将合并号的 <code>trunk</code> 提交到版本库中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ svn commit -m &apos;add index.html&apos;</span><br><span class="line">Adding         index.html</span><br><span class="line">Committing transaction...</span><br><span class="line">Committed revision 12.</span><br></pre></td></tr></table></figure>
+
+<h2 id="SVN-标签"><a href="#SVN-标签" class="headerlink" title="SVN 标签"></a>SVN 标签</h2><p>SVN 支持打标签，也就是在项目开发中，开发到一定阶段可以单独一个版本作为发布时，往往可以打包一个固定的版本。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ svn copy trunk/ tags/v1.0</span><br><span class="line">A         tags\v1.0</span><br></pre></td></tr></table></figure>
+
+<p>将在 <code>tags</code> 目录下创建 <code>v1.0</code> 目录。</p>
+<p>然后查看状态，提交 <code>tag</code> 到版本库中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ svn status</span><br><span class="line">A  +    tags\v1.0</span><br><span class="line"></span><br><span class="line">$ svn commit -m &apos;add v1.0&apos;</span><br><span class="line">Adding         tags\v1.0</span><br><span class="line">Committing transaction...</span><br><span class="line">Committed revision 13.</span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>作者:</span>
+                        <span>展小白</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>永久链接:</span>
+                        <span><a href="https://blog.zhanxiaobai.com/2018/09/25/svn/">https://blog.zhanxiaobai.com/2018/09/25/svn/</a></span>
+                    </p>
+                
+                <!-- 
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span></span>
+                    </p>
+                 -->
+                
+                     <p class="copyright-item">
+                         <span>联系我:</span>
+                         <span>关注公众号「展白说」，获取更多有价值的信息。</span>
+                     </p>
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/SVN/"># SVN</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/01/09/mkcert/">mkcert 本地使用的 HTTPS 证书</a>
+            
+            
+            <a class="next" rel="next" href="/2018/09/22/ueditor-qcloud/">百度富文本编辑器 ueditor 集成腾讯云 COS 存储</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 展小白 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

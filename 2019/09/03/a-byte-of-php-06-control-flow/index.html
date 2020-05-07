@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="description" content="互联网开发，个人技术随想。">
+
+
+    <meta name="keywords" content="展白，展小白，博客，技术，随想。">
+
+
+<title>《简明 PHP 教程》06 流程控制 | 展小白的博客 | Zhan Xiaobai&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">展小白的博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">展小白的博客</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">展开目录</a>
+        <a onclick="go_top()">返回顶部</a>
+        <a onclick="go_bottom()">转到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "合并目录"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "展开目录"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">《简明 PHP 教程》06 流程控制</h1>
+            
+                <div class="post-meta">
+                    
+                        作者: <a itemprop="author" rel="author" href="/">展小白</a>
+                    
+
+                    
+                        <span class="post-time">
+                        发布于: <a href="#">九月 3, 2019&nbsp;&nbsp;18:35:28</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    分类:
+                            
+                                <a href="/categories/《简明-PHP-教程》/">《简明 PHP 教程》</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>截止到目前，在我们所看过的程序中，都是从上向下排列，然后由 PHP 执行。如果你想改变这个工作流程，应该怎么做？你需要程序作出一些判断，并依据不同的情况去完成不同的事情，例如依据每天时间的不同打印出 ‘早上好’ ‘Good Morning’ 或 ‘晚上好’ ‘Good Evening’？</p>
+<p>正如你可能已经猜到的那样，这是通过流程控制来实现的。在 PHP 中有多种流程控制语句。</p>
+<h2 id="if-语句"><a href="#if-语句" class="headerlink" title="if 语句"></a><code>if</code> 语句</h2><p><code>if</code> 语句用于判断条件：如果条件为真（True），我们将运行一部分代码，否则我们将运行另一部分代码。其中 <code>else</code> 从句是可选的。</p>
+<p>示例（保存为 <code>if.php</code>）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$number = 23;</span><br><span class="line">fwrite(STDOUT, &apos;Enter an integer: &apos;);</span><br><span class="line">$guess = (int)trim(fgets(STDIN));</span><br><span class="line"></span><br><span class="line">if ($guess == $number) &#123;</span><br><span class="line">    echo &apos;Congratulations, you guessed it.&apos; . PHP_EOL;</span><br><span class="line">    echo &apos;(but you do not win any prizes!)&apos; . PHP_EOL;</span><br><span class="line">&#125; else if ($guess &lt; $number) &#123;</span><br><span class="line">    echo &apos;No, it is a little higher than that&apos; . PHP_EOL;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    echo &apos;No, it is a little lower than that&apos; . PHP_EOL;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">echo &apos;Done&apos; . PHP_EOL;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ php if.php</span><br><span class="line">Enter an integer: 50</span><br><span class="line">No, it is a little lower than that</span><br><span class="line">Done</span><br><span class="line"></span><br><span class="line">$ php if.php</span><br><span class="line">Enter an integer: 22</span><br><span class="line">No, it is a little higher than that</span><br><span class="line">Done</span><br><span class="line"></span><br><span class="line">$ php if.php</span><br><span class="line">Enter an integer: 23</span><br><span class="line">Congratulations, you guessed it.</span><br><span class="line">(but you do not win any prizes!)</span><br><span class="line">Done</span><br></pre></td></tr></table></figure>
+
+<h3 id="它是如何工作的"><a href="#它是如何工作的" class="headerlink" title="它是如何工作的"></a>它是如何工作的</h3><p>在这个程序中，我们根据用户猜测的数字来检查这一数字是否是我们所设置的。我们将变量 <code>$number</code> 设为任何我们所希望的整数，例如 <code>23</code>。然后，我们通过 <code>fgets()</code> 函数来获取用户的猜测数。所谓函数是一种可重复使用的程序。我们将在下一章详细讨论它。</p>
+<p>我们为内置的 <code>fwrite</code> 函数提供一串打印到屏幕上的字符串并等待用户的输入。一旦我们输入了某些内容并按下键盘上的 <code>enter</code> 键，<code>fgets()</code> 函数将以字符串的形式返回我们所输入的内容。然后我们通过 <code>(int)</code> 将这个字符串转换成一个整数并将其储存在变量 <code>$guess</code> 中。实际上，大多数情况下都不需要强制转换，因为当运算符，函数或流程控制需要一个 <code>integer</code> 参数时，值会自动转换。</p>
+<p>接下来，我们将用户提供的猜测数与我们所选择的数字进行对比。如果它们相等，我们就打印一条成功信息。在这里要注意到我们使用大括号和缩进级别来告诉 PHP 哪些语句分别属于哪个块。</p>
+<p>然后，我们检查猜测数是否小于我们选择的数字，如果是，我们将告诉用户他们必须猜一个更高一些的数字。在这里我们使用的是 <code>elseif</code> 语句，它们实际上将两个相连的 <code>if else-if else</code> 语句合并成一句 <code>if-elseif-else</code> 语句。这能够使程序更加简便。</p>
+<p>你可以在 <code>if</code> 块的一个 <code>if</code> 语句中设置另一个 <code>if</code> 语句，并可以如此进行下去——这被称作嵌套的 <code>if</code> 语句。</p>
+<p>要记住 <code>elseif</code> 和 <code>else</code> 部分都是可选的。一个最小规模且有效的 <code>if</code> 语句是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">if (True) &#123;</span><br><span class="line">  echo &apos;Yes, it is true&apos; . PHP_EOL;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当 PHP 完整执行了 <code>if</code> 语句或其相关的 <code>elseif</code> <code>else</code> 子句后，它会移动到下一部分的代码块。在本例中，也就是 <code>echo &#39;Done&#39; . PHP_EOL;</code> 语句。在完成这些工作后，PHP 会发现运行至程序末尾并宣告工作的完成。</p>
+<p>虽然这是一个很简单的程序（对于具有 C/C++ 背景的人来说非常简单易懂），但是最开始你可能需要刻意的去记忆，等到更多的操作之后你就会习惯其中的逻辑，到时候对你来说就是“自然而然”的事情了。</p>
+<h2 id="while-语句"><a href="#while-语句" class="headerlink" title="while 语句"></a><code>while</code> 语句</h2><p><code>while</code> 语句能够让你在条件为真的前提下重复执行某块语句。 <code>while</code> 语句是 <em>循环（Looping）</em> 语句的一种。</p>
+<p>示例（保存为 <code>while.php</code>）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$number = 23;</span><br><span class="line">$running = True;</span><br><span class="line"></span><br><span class="line">while ($running) &#123;</span><br><span class="line">    fwrite(STDOUT, &apos;Enter an integer: &apos;);</span><br><span class="line">    $guess = (int)trim(fgets(STDIN));</span><br><span class="line"></span><br><span class="line">    if ($guess == $number) &#123;</span><br><span class="line">        echo &apos;Congratulations, you guessed it.&apos; . PHP_EOL;</span><br><span class="line">        // 使 while 循环终止</span><br><span class="line">        $running = False;</span><br><span class="line">    &#125; elseif ($guess &lt; $number) &#123;</span><br><span class="line">        echo &apos;No, it is a little higher than that&apos; . PHP_EOL;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        echo &apos;No, it is a little lower than that&apos; . PHP_EOL;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// while 循环结束执行</span><br><span class="line">echo &apos;The while loop is over.&apos; . PHP_EOL;</span><br><span class="line">echo &apos;Done&apos; . PHP_EOL;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ php while.php</span><br><span class="line">Enter an integer: 50</span><br><span class="line">No, it is a little lower than that</span><br><span class="line">Enter an integer: 22</span><br><span class="line">No, it is a little higher than that</span><br><span class="line">Enter an integer: 23</span><br><span class="line">Congratulations, you guessed it.</span><br><span class="line">The while loop is over.</span><br><span class="line">Done</span><br></pre></td></tr></table></figure>
+
+<h3 id="它是如何工作的-1"><a href="#它是如何工作的-1" class="headerlink" title="它是如何工作的"></a>它是如何工作的</h3><p>在这一程序中，我们依旧通过猜数游戏来演示，不过新程序的优点在于能够允许用户持续猜测直至他猜中为止，而无需像我们在上一节中所做的那样，每次猜测都要重新运行程序。这种变化恰到好处地演示了 <code>while</code> 语句的作用。</p>
+<p>首先我们将 <code>fwrite</code> 与 <code>if</code> 语句移到 <code>while</code> 循环之中，并在 <code>while</code> 循环开始前将变量 <code>$running</code> 设置为 <code>True</code>。程序开始时，我们首先检查变量 <code>$running</code> 是否为 <code>True</code>，之后再执行相应的 <code>while</code> 代码块。在这一代码块被执行之后，将会重新对条件进行检查，在本例中也就是 <code>$running</code> 变量。如果它依旧为 <code>True</code>，我们将再次执行 <code>while</code> 代码块，否则我们将结束循环，然后进入到下一个语句中。</p>
+<p><code>True</code> 和 <code>False</code> 被称作布尔（Boolean）型，你可以将它们分别等价地视为 <code>1</code> 与 <code>0</code>。</p>
+<h2 id="do-while-语句"><a href="#do-while-语句" class="headerlink" title="do-while 语句"></a><code>do-while</code> 语句</h2><p><code>do-while</code> 循环和 <code>while</code> 循环非常相似，区别在于表达式的值是在每次循环结束时检查而不是开始时。和一般的 <code>while</code> 循环主要的区别是 <code>do-while</code> 的循环语句保证会执行一次（表达式的真值在每次循环结束后检查），然而在一般的 <code>while</code> 循环中就不一定了（表达式真值在循环开始时检查，如果一开始就为 <code>FALSE</code> 则整个循环立即终止）。</p>
+<p>示例（保存为 <code>do_while.php</code>）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$number = 23;</span><br><span class="line">$running = False;</span><br><span class="line"></span><br><span class="line">do &#123;</span><br><span class="line">    fwrite(STDOUT, &apos;Enter an integer: &apos;);</span><br><span class="line">    $guess = (int)trim(fgets(STDIN));</span><br><span class="line"></span><br><span class="line">    if ($guess == $number) &#123;</span><br><span class="line">        echo &apos;Congratulations, you guessed it.&apos; . PHP_EOL;</span><br><span class="line">        // 使 while 循环终止</span><br><span class="line">        $running = False;</span><br><span class="line">    &#125; elseif ($guess &lt; $number) &#123;</span><br><span class="line">        echo &apos;No, it is a little higher than that&apos; . PHP_EOL;</span><br><span class="line">        // 使 do-while 循环继续</span><br><span class="line">        $running = True;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        echo &apos;No, it is a little lower than that&apos; . PHP_EOL;</span><br><span class="line">        // 使 do-while 循环继续</span><br><span class="line">        $running = True;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; while ($running);</span><br><span class="line"></span><br><span class="line">// while 循环结束执行</span><br><span class="line">echo &apos;The while loop is over.&apos; . PHP_EOL;</span><br><span class="line">echo &apos;Done&apos; . PHP_EOL;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ php do_while.php</span><br><span class="line">Enter an integer: 50</span><br><span class="line">No, it is a little lower than that</span><br><span class="line">Enter an integer: 22</span><br><span class="line">No, it is a little higher than that</span><br><span class="line">Enter an integer: 23</span><br><span class="line">Congratulations, you guessed it.</span><br><span class="line">The while loop is over.</span><br><span class="line">Done</span><br></pre></td></tr></table></figure>
+
+<h3 id="它是如何工作的-2"><a href="#它是如何工作的-2" class="headerlink" title="它是如何工作的"></a>它是如何工作的</h3><p>在这一程序中，我们依旧通过猜数游戏来演示，与 <code>while</code> 语句的示例类似，同样能够允许用户持续猜测直到猜中为止，首先我们将 <code>fwrite</code> 与 <code>if</code> 语句移到 <code>while</code> 循环之中，并在 <code>while</code> 循环开始前将变量 <code>$running</code> 设置为 <code>False</code>。程序开始时，不会判断 <code>$running</code> 是否为真，而是先执行相应的 <code>while</code> 代码块。在这一代码块被执行之后，会对条件进行检查，在本例中也就是 <code>$running</code> 变量。如果它为 <code>True</code>，我们将再次执行 <code>while</code> 代码块，否则我们将结束循环，然后进入到下一个语句中。</p>
+<h2 id="for-语句"><a href="#for-语句" class="headerlink" title="for 语句"></a><code>for</code> 语句</h2><p><code>for</code> 循环是 PHP 中最复杂的循环结构。它的行为和 C 语言的相似。</p>
+<p>示例（保存为 <code>for.php</code>）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">for ($i = 1; $i &lt;= 5; $i++) &#123;</span><br><span class="line">    echo $i . PHP_EOL;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">echo &apos;The for loop is over&apos; . PHP_EOL;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ php for.php</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">The for loop is over</span><br></pre></td></tr></table></figure>
+
+<h3 id="它是如何工作的-3"><a href="#它是如何工作的-3" class="headerlink" title="它是如何工作的"></a>它是如何工作的</h3><p>在这个程序里，会打印一列数字，在循环开始前表达式 <code>$i = 1;</code> 先无条件求值一次。表达式 <code>$i &lt;= 5;</code> 在每次循环开始前求值一次，如果值为 <code>True</code> 则继续循环，执行嵌套的循环语句。如果为 <code>False</code> 则终止循环。表达式 <code>$i++;</code> 在每次循环之后被求值。其中，每个表达式都可以为空或包括逗号分隔的多个表达式。其中第二个表达式如果为空意味着将无限循环下去（和 C 一样，PHP 暗中认为其值为 <code>True</code>）。看起来似乎没什么用，其实不然，因为经常会使用有条件的 <code>break</code> 语句来结束循环而不是用 <code>for</code> 的表达式真值判断。</p>
+<h2 id="foreach-语句"><a href="#foreach-语句" class="headerlink" title="foreach 语句"></a><code>foreach</code> 语句</h2><p><code>foreach</code> 语法结构提供了遍历数组的简单方式。<code>foreach</code> 仅能够应用于数组和对象，如果尝试应用于其他数据类型的变量，或者未初始化的变量将发出错误信息。</p>
+<p>示例（保存为 <code>foreach</code>）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$arr = array(&apos;one&apos;, &apos;two&apos;, &apos;three&apos;);</span><br><span class="line"></span><br><span class="line">foreach ($arr as $key =&gt; $value) &#123;</span><br><span class="line">    echo $key . &apos;: &apos; . $value . PHP_EOL;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">echo &apos;The foreach loop is over&apos; . PHP_EOL;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ php foreach.php</span><br><span class="line">0: one</span><br><span class="line">1: two</span><br><span class="line">2: three</span><br><span class="line">The foreach loop is over</span><br></pre></td></tr></table></figure>
+
+<h3 id="它是如何工作的-4"><a href="#它是如何工作的-4" class="headerlink" title="它是如何工作的"></a>它是如何工作的</h3><p>在这个程序里，<code>foreach</code> 会遍历数组 <code>$arr</code>，在每次循环中，将每一个单元的键名赋给变量 <code>$key</code>，将每一个单元的值赋给变量 <code>$value</code>，并且数组内部的指针向前移一步（因此下一次循环中将会得到下一个单元）。另外，对于键名也可以不进行赋值。</p>
+<p>如果要修改数组的元素可以通过在 <code>$value</code> 之前加上 <code>&amp;</code>。此方法将以引用赋值而不是拷贝一个值。需要说明的是，<code>$value</code> 的引用只有在被遍历的数组可以引用时才可用（例如是个变量）。</p>
+<h2 id="switch-语句"><a href="#switch-语句" class="headerlink" title="switch 语句"></a><code>switch</code> 语句</h2><p><code>switch</code> 语句类似于具有同一个表达式的一系列 <code>if</code> 语句。很多场合下需要把同一个变量（或表达式）与很多不同的值比较，并根据它等于哪个值来执行不同的代码。这正是 <code>switch</code> 语句的用途。</p>
+<p>示例（保存为 <code>switch.php</code>）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">fwrite(STDOUT, &apos;Enter something: &apos;);</span><br><span class="line">$i = trim(fgets(STDIN));</span><br><span class="line"></span><br><span class="line">switch ($i) &#123;</span><br><span class="line">    case 0:</span><br><span class="line">        echo &apos;i equals 0&apos; . PHP_EOL;</span><br><span class="line">        break;</span><br><span class="line">    case 1:</span><br><span class="line">        echo &apos;i equals 1&apos; . PHP_EOL;</span><br><span class="line">        break;</span><br><span class="line">    case &apos;apple&apos;:</span><br><span class="line">        echo &apos;i is apple&apos; . PHP_EOL;</span><br><span class="line">        break;</span><br><span class="line">    case &apos;bar&apos;:</span><br><span class="line">    case &apos;cake&apos;:</span><br><span class="line">        echo &apos;i is bar or cake&apos; . PHP_EOL;</span><br><span class="line">        break;</span><br><span class="line">    default:</span><br><span class="line">        echo &apos;i is unknown&apos; . PHP_EOL;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">echo &apos;The switch loop is over&apos; . PHP_EOL;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ php switch.php</span><br><span class="line">Enter something: 0</span><br><span class="line">i equals 0</span><br><span class="line">The switch loop is over</span><br><span class="line"></span><br><span class="line">$ php switch.php</span><br><span class="line">Enter something: 1</span><br><span class="line">i equals 1</span><br><span class="line">The switch loop is over</span><br><span class="line"></span><br><span class="line">$ php switch.php</span><br><span class="line">Enter something: apple</span><br><span class="line">i equals 0</span><br><span class="line">The switch loop is over</span><br></pre></td></tr></table></figure>
+
+<h3 id="它是如何工作的-5"><a href="#它是如何工作的-5" class="headerlink" title="它是如何工作的"></a>它是如何工作的</h3><p>在这个程序里，<code>switch</code> 语句一行接一行的执行，当一个 <code>case</code> 语句中的值和 <code>switch</code> 表达式的值匹配时，执行相关代码，我们分别输入了 <code>0</code> <code>1</code> <code>apple</code>，其中需要注意的是，因为 <code>switch/case</code> 采用的是松散比较，因此 <code>apple</code> 最先匹配到的是 <code>0</code>，所以输出的是 <code>i equals 0</code>。 匹配以后遇到第一个 <code>break</code> 语句 <code>switch</code> 语句就结束了。</p>
+<p>我们可以看到 <code>case</code> 表达式可以是任何求值为简单类型的表达式，即整型或浮点数以及字符串。不能用数组或对象，除非它们被解除引用成为简单类型。另外，<code>default</code> 是 <code>case</code> 的一个特例，它匹配了任何和其它 <code>case</code> 都不匹配的情况。</p>
+<h2 id="break-语句"><a href="#break-语句" class="headerlink" title="break 语句"></a><code>break</code> 语句</h2><p><code>break</code> 结束当前 <code>for</code>，<code>foreach</code>，<code>while</code>，<code>do-while</code> 或者 <code>switch</code> 结构的执行。<code>break</code> 可以接受一个可选的数字参数来决定跳出几重循环。</p>
+<p>示例（保存为 <code>break.php</code>）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">while (True) &#123;</span><br><span class="line">    fwrite(STDOUT, &apos;Enter something: &apos;);</span><br><span class="line">    $s = trim(fgets(STDIN));</span><br><span class="line"></span><br><span class="line">    if ($s == &apos;quit&apos;) &#123;</span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    echo &apos;Length of the string is &apos; . strlen($s) . PHP_EOL;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">echo &apos;Done&apos; . PHP_EOL;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ php break.php</span><br><span class="line">Enter something: Programming is fun</span><br><span class="line">Length of the string is 18</span><br><span class="line">Enter something: When the work is done</span><br><span class="line">Length of the string is 21</span><br><span class="line">Enter something: if you wanna make your work also fun:</span><br><span class="line">Length of the string is 37</span><br><span class="line">Enter something: use PHP!</span><br><span class="line">Length of the string is 8</span><br><span class="line">Enter something: quit</span><br><span class="line">Done</span><br></pre></td></tr></table></figure>
+
+<h3 id="它是如何工作的-6"><a href="#它是如何工作的-6" class="headerlink" title="它是如何工作的"></a>它是如何工作的</h3><p>在这个程序里，我们重复地接受用户的输入内容并打印出每一次输入内容的长度。我们通过检查用户输入的是否是 <code>quit</code> 这一特殊条件来判断是否应该终止程序。我们通过中断循环并转到程序末尾来结束这一程序。</p>
+<p>输入字符串的长度可以通过内置的 <code>strlen</code> 函数来获取到。</p>
+<h2 id="continue-语句"><a href="#continue-语句" class="headerlink" title="continue 语句"></a><code>continue</code> 语句</h2><p><code>continue</code> 在循环结构用用来跳过本次循环中剩余的代码并在条件求值为真时开始执行下一次循环。</p>
+<blockquote>
+<p>注意：在 PHP 中 switch 语句被认为是可以使用 continue 的一种循环结构。</p>
+</blockquote>
+<p><code>continue</code> 接受一个可选的数字参数来决定跳过几重循环到循环结尾。默认值是 <code>1</code>，即跳到当前循环末尾。</p>
+<p>示例（保存为 <code>continue.php</code>）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">while (True) &#123;</span><br><span class="line">    fwrite(STDOUT, &apos;Enter something: &apos;);</span><br><span class="line">    $s = trim(fgets(STDIN));</span><br><span class="line"></span><br><span class="line">    if ($s == &apos;quit&apos;) &#123;</span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (strlen($s) &lt; 3) &#123;</span><br><span class="line">        echo &apos;Too small&apos; . PHP_EOL;</span><br><span class="line">        continue;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    echo &apos;Input is of sufficient length&apos; . PHP_EOL;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ php continue.php</span><br><span class="line">Enter something: a</span><br><span class="line">Too small</span><br><span class="line">Enter something: 12</span><br><span class="line">Too small</span><br><span class="line">Enter something: abc</span><br><span class="line">Input is of sufficient length</span><br><span class="line">Enter something: quit</span><br></pre></td></tr></table></figure>
+
+<h3 id="它是如何工作的-7"><a href="#它是如何工作的-7" class="headerlink" title="它是如何工作的"></a>它是如何工作的</h3><p>在这个程序里，我们接受来自用户的输入内容，但是只有在输入的字符串其长至少 <code>3</code> 字符我们才会对其进行处理。为此，我们使用内置的 <code>strlen</code> 函数来获取字符串的长度，如果其长度小于 <code>3</code>，我们便使用 <code>continue</code> 语句跳过代码块中的其余语句。否则，循环中的剩余语句将被执行，并在此处进行我们所希望的任何类型的处理。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们已经了解了六种流程控制语句——<code>if</code>，<code>while</code>，<code>do-while</code>，<code>for</code>，<code>foreach</code> 和 <code>switch</code> ——及其相关的 <code>break</code> 与 <code>continue</code> 语句是如何工作的。这些语句是 PHP 中一些最常用的部分，因此，习惯去使用它们是必要的。</p>
+<p>接下来，我们将了解如何创建并使用函数。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>作者:</span>
+                        <span>展小白</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>永久链接:</span>
+                        <span><a href="https://blog.zhanxiaobai.com/2019/09/03/a-byte-of-php-06-control-flow/">https://blog.zhanxiaobai.com/2019/09/03/a-byte-of-php-06-control-flow/</a></span>
+                    </p>
+                
+                <!-- 
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span></span>
+                    </p>
+                 -->
+                
+                     <p class="copyright-item">
+                         <span>联系我:</span>
+                         <span>关注公众号「展白说」，获取更多有价值的信息。</span>
+                     </p>
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/《简明-PHP-教程》/"># 《简明 PHP 教程》</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/09/06/js-history/">JavaScript 是如何成长为一门广泛使用的编程语言</a>
+            
+            
+            <a class="next" rel="next" href="/2019/08/31/openarkcompiler/">华为方舟编译器开源官网正式上线，迈出了实质性开源的第一步</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 展小白 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

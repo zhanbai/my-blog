@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="description" content="互联网开发，个人技术随想。">
+
+
+    <meta name="keywords" content="展白，展小白，博客，技术，随想。">
+
+
+<title>HTTP/2 和 SPDY | 展小白的博客 | Zhan Xiaobai&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">展小白的博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">展小白的博客</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">展开目录</a>
+        <a onclick="go_top()">返回顶部</a>
+        <a onclick="go_bottom()">转到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "合并目录"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "展开目录"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">HTTP/2 和 SPDY</h1>
+            
+                <div class="post-meta">
+                    
+                        作者: <a itemprop="author" rel="author" href="/">展小白</a>
+                    
+
+                    
+                        <span class="post-time">
+                        发布于: <a href="#">十一月 3, 2017&nbsp;&nbsp;6:12:10</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    分类:
+                            
+                                <a href="/categories/技术/">技术</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>Google 在 2009 年推出了 SPDY 协议（取 speedy 的谐音，更快的意思），基于 TCP 的应用层协议，用以最小化网络延迟，提升网络速度，优化用户的网络使用体验，目标是降低 50% 的页面加载时间。2012 年，IETF HTTPBIS 工作小组（负责 HTTP/2 标准化工作），决定把 SPDY 作为 HTTP/2 的原型。三年后，进入标准化流程最后阶段，Google 也宣布 SPDY 在 2016 年停止开发，转而采用 HTTP/2。</p>
+<h2 id="SPDY-主要功能"><a href="#SPDY-主要功能" class="headerlink" title="SPDY 主要功能"></a>SPDY 主要功能</h2><h3 id="基本特性"><a href="#基本特性" class="headerlink" title="基本特性"></a>基本特性</h3><ul>
+<li>数据流的多路复用，允许在一个连接上无限制并发流，TCP 效率更高、更少网络连接、发出更少更密集的数据包。</li>
+<li>请求优先级，为每个请求分配一个优先级，防止在网络通道被非关键资源堵塞时，高优先级的请求被挂起。</li>
+<li>HTTP 报头压缩，压缩请求和响应 HTTP 报头，减少传输的数据包数量和字节数。</li>
+</ul>
+<h3 id="高级特性"><a href="#高级特性" class="headerlink" title="高级特性"></a>高级特性</h3><ul>
+<li>服务器启动流，能用来分发内容到客户端，而不需要客户端发起请求。</li>
+</ul>
+<h2 id="HTTP-2-主要功能"><a href="#HTTP-2-主要功能" class="headerlink" title="HTTP/2 主要功能"></a>HTTP/2 主要功能</h2><ul>
+<li>二进制格式传输数据，相较于 HTTP/1.x 的文本格式，在协议的解析和优化扩展上带来更多的优势和可能。</li>
+<li>对消息头采用 HPACK 进行压缩传输，能够节省消息头占用的网络流量。而 HTTP/1.x 每次请求，都会携带大量冗余头信息，浪费很多带宽资源。</li>
+<li>多路复用，所有的请求都是通过一个 TCP 连接并发完成，流支持优先级和流量控制。HTTP/1.x 虽然可以利用一个连接完成多次请求，但多个请求之间有先后顺序，后面发送的请求必须等待上一个请求返回才能发送响应。容易导致后面的请求被阻塞。</li>
+<li>Server Push，服务端能够更快的把资源推送给客户端。比如服务端可以主动把 JS 和 CSS 文件推送给客户端，而不需要客户解析 HTML 再发送这些请求。</li>
+</ul>
+<p>HTTP/2 主要是 HTTP/1.x 在底层传输机制上的完全重构，HTTP/2 基本兼容 HTTP/1.x 的语义，只不过不再是文本传输。</p>
+<h2 id="HTTP-2-和-SPDY-不同的地方"><a href="#HTTP-2-和-SPDY-不同的地方" class="headerlink" title="HTTP/2 和 SPDY 不同的地方"></a>HTTP/2 和 SPDY 不同的地方</h2><ul>
+<li>HTTP/2 支持明文 HTTP 传输，而 SPDY 强制使用 HTTPS。</li>
+<li>HTTP/2 消息头的压缩算法采用 HPACK，而 SPDY 采用的是 DELEFT。</li>
+</ul>
+<p>HPACK 是专门为压缩报头而设计的算法，使用预定义的 token、动态表以及哈夫曼压缩。比 DELEFT 压缩效果更明显。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>作者:</span>
+                        <span>展小白</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>永久链接:</span>
+                        <span><a href="https://blog.zhanxiaobai.com/2017/11/03/http-spdy/">https://blog.zhanxiaobai.com/2017/11/03/http-spdy/</a></span>
+                    </p>
+                
+                <!-- 
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span></span>
+                    </p>
+                 -->
+                
+                     <p class="copyright-item">
+                         <span>联系我:</span>
+                         <span>关注公众号「展白说」，获取更多有价值的信息。</span>
+                     </p>
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/HTTP/"># HTTP</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2017/11/13/scrapy/">Scrapy 一个简单、快速、可扩展的爬虫框架</a>
+            
+            
+            <a class="next" rel="next" href="/2017/11/01/screen/">GNU Screen 多会话管理工具</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 展小白 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

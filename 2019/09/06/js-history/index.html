@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="description" content="互联网开发，个人技术随想。">
+
+
+    <meta name="keywords" content="展白，展小白，博客，技术，随想。">
+
+
+<title>JavaScript 是如何成长为一门广泛使用的编程语言 | 展小白的博客 | Zhan Xiaobai&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">展小白的博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">展小白的博客</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">展开目录</a>
+        <a onclick="go_top()">返回顶部</a>
+        <a onclick="go_bottom()">转到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "合并目录"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "展开目录"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">JavaScript 是如何成长为一门广泛使用的编程语言</h1>
+            
+                <div class="post-meta">
+                    
+                        作者: <a itemprop="author" rel="author" href="/">展小白</a>
+                    
+
+                    
+                        <span class="post-time">
+                        发布于: <a href="#">九月 6, 2019&nbsp;&nbsp;19:41:42</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    分类:
+                            
+                                <a href="/categories/技术/">技术</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>时间回到 1999 年，如果预测 20 年后 JavaScript 会成为世界上最流行的编程语言之一，也许你会怀疑。因为当时 JavaScript 无法完成专业编程语言能够完成的工作，甚至不是一门严谨、正式的编程语言。当时有很多成熟的工具供 Web 开发人员使用。比如：Java、PHP 等。</p>
+<p>在 1995 年，开创了网景浏览器的网景公司觉得应该有一种更简单的语言被创造出来，用于解决浏览器和用户的交互问题。当时的网景正处于和微软的市场竞争中，与此同时开启了与 Sun 公司战略合作。他们聘请了 Brendan Eich 来研究这项工作，最终在 10 天内完成了 JavaScript 第一版。起初，Brendan Eich 是想研究 Scheme 语言作为网页脚本语言的可能性。但是公司希望创造一种看起来像 Java，但是比 Java 简单的语言，这也是为什么叫 JavaScript 的缘故。</p>
+<h2 id="早期的-JavaScript"><a href="#早期的-JavaScript" class="headerlink" title="早期的 JavaScript"></a>早期的 JavaScript</h2><p>在最初的五年，JavaScript 一直是那些未能具备 Java 编程能力人员的入门选择。他们包括业余爱好者，用来做简单的功能；网页设计师之类的新技术工作者，让网页看起来更好看，比如实现比 <code>&lt;blink&gt;</code> 标签更精致，比 GIF 动图更现代化的功能。</p>
+<p>在专业领域，JavaScript 主要充当胶水语言的作用，实现更复杂的网页交互设计，比如：交互按钮、弹出菜单、页面特效等。不久之后，JavaScript 被大量使用于鼠标点击，然后触发图像的变化之类的功能。</p>
+<p>虽然开发人员认为，实现一个按钮动作，需要将代码分发到每个人的浏览器去执行，是不合理的。但是很少人想要去对 JavaScript 做进一步的更新改造。因为大多数程序员更喜欢用服务器端编程语言去实现 JavaScript 代码。如果说让 JavaScript 代替服务器端编程语言做这些事情，当时的人们会觉得很荒谬。就像要用 Excel 代替数据库实现存储过程一样。</p>
+<h2 id="有限领域的应用"><a href="#有限领域的应用" class="headerlink" title="有限领域的应用"></a>有限领域的应用</h2><p>今天人们批评 JavaScript，通常是因为这门语言的局限性，比如：弱类型、笨重的 DOM 对象，== 和 === 比较的混乱等等。但是这些不是 JavaScript 早年看起来糟糕的原因。即使语言糟糕，但是在合适的时间出现在合适的领域，也会让一门语言变得至关重要。JavaScript 是所有浏览器都支持的唯一语言，就像 Web 要统领整个世界一样，它在合适的时间出现在了合适的领域。</p>
+<p>当时真正限制 JavaScript 的是它有限的功能，比如：无法直接访问文件系统、显示器或任何硬件。另外，JavaScript 不可以操作 Web 服务器的任何内容，例如存储在数据库中的用户列表或产品数据等，也不可以在服务器端运行业务逻辑。只能应用于自己有限的领域，增加网页的交互特效。</p>
+<h2 id="XMLHttpRequest-的出现"><a href="#XMLHttpRequest-的出现" class="headerlink" title="XMLHttpRequest 的出现"></a>XMLHttpRequest 的出现</h2><p>微软实现了 JavaScript 的突破。今天的微软，是开源领域重要的公司之一。但是，当时的微软是反开源的战士，以“拥抱、扩展和消灭”的理念打败竞争对手。</p>
+<p>当时，微软的一个团队正在研究如何为 Outlook 实现响应更快的 Web 前端。他们构建了一个叫 Outlook Web Access 的产品。微软的目标相对保守，希望开发一个可以在浏览器中浏览邮件的阅读器，它不需要每隔几秒就要刷新整个页面，而是在后台可以检查邮件是否更新。在现在看来，十分简单。但当时 Gmail 还没有诞生，谷歌公司也才成立几年。</p>
+<p>微软的团队用 XMLHttpRequest 实现了与服务器的交互。使得 JavaScript 可以发出 Web 请求，这样网页就可以利用 Web 服务器的所有资源，比如数据库、执行服务器计算、安全测试、安全验证等等。同时也实现了页面请求在后台运行。</p>
+<p>显然早期的 XMLHttpRequest 不是完美的，比如它具有大小写不一致的奇怪命名方法，使得 JavaScript 一样区分大小写的语言变得麻烦。另外只能发送和接收 XML 信息。然而，通常情况下，信息可以是任何普通文本，HTML 代码块，序列化为 JSON 的 JavaScript 对象。其实，最大的问题是 XMLHttpRequest 依赖于 ActiveX，使得它只能在 Windows 计算机上运行，而且只能在 Internet Explorer 中运行。</p>
+<p>但是这些缺陷并没有阻止它的发展，在短短几年内，其它浏览器提供了自己对 XMLHttpRequest 的相同实现，而且不依赖于 ActiveX。虽然微软首先创建了 XMLHttpRequest，但是在其 Web 开发中对这项技术的应用速度比较慢，在基于 Web 的电子邮件系统 Hotmail 中使用犹豫不决。相反，谷歌一直在使用 XMLHttpRequest，并在 2004 年推出 Gmail，2005 年推出谷歌地图。</p>
+<h2 id="通往现代的道路"><a href="#通往现代的道路" class="headerlink" title="通往现代的道路"></a>通往现代的道路</h2><p>XMLHttpRequest 是改变 JavaScript 的关键因素，此后也陆续有几次关键节点。</p>
+<p>多年来，JavaScript 发展缓慢，问题在于，市场领先的浏览器 Internet Explorer 是随着操作系统升级，也就意味着升级的速度比较慢。开发人员被迫要检查不同浏览器的版本，从而试图解决兼容问题。</p>
+<p>2006 年，开发人员通过 jQuery 的形式获得了解决方案，虽然今天 jQuery 有点过时了，但是在 10 年前，如果想更快的解决浏览器兼容，把更多的时间花在构建功能上，它是必不可少的工具。</p>
+<p>2008 年，谷歌发布了一款名为 V8 的新的 JavaScript 引擎。像 jQuery 提供了广泛的浏览器兼容方案一样，V8 带来了极高的性能。而且它是一个独立的开源项目，其它的项目都可以使用它。在之后，为 Node.js 和 Electron 的出现奠定了基础。</p>
+<p>同年，HTML5 第一份正式草案公布。虽然 HTML5 本身不是关于 JavaScript 的，但是与新的 JavaScript API 配合使用，使得开发人员拥有了存储本地数据、管理浏览器历史记录、使用音频和运行后台工具的能力。再一次缩小了 Web 应用和桌面应用之间的差距。</p>
+<h2 id="现代的-JavaScript"><a href="#现代的-JavaScript" class="headerlink" title="现代的 JavaScript"></a>现代的 JavaScript</h2><p>JavaScript 的成功是其在浏览器中的特殊地位的必然结果，还是纯粹是运气好？不好说，不过大部分时间 JavaScript 都不是人们最爱的语言。但是它的发展证明了决定新技术是否可以走下去，是靠它的影响力。如果一门语言它的受众足够广，即使是开始做的不好，也没有关系，在实践中它会变得越来越好。</p>
+<p>JavaScript 的未来延续了快速发展的道路。我们在 Web 服务器上可以运行 JavaScript（Node.js），并且可以构建桌面应用（Electron）。进一步的发展，如 Typescript 可以编译成纯 JavaScript，为开发人员提供了构建大型应用的工具。而且在未来，WebAssembly 可能会彻底打破语言的限制，让开发者可以搭载 JavaScript 引擎来使用他们任何想要使用的更高级别的语言。</p>
+<p>需要承认的是，JavaScript 是伟大的语言之一。Brendan Eich 将 JavaScript 放入了网景浏览器，而我们把整个世界放入了浏览器，构成了现代网络。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>作者:</span>
+                        <span>展小白</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>永久链接:</span>
+                        <span><a href="https://blog.zhanxiaobai.com/2019/09/06/js-history/">https://blog.zhanxiaobai.com/2019/09/06/js-history/</a></span>
+                    </p>
+                
+                <!-- 
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span></span>
+                    </p>
+                 -->
+                
+                     <p class="copyright-item">
+                         <span>联系我:</span>
+                         <span>关注公众号「展白说」，获取更多有价值的信息。</span>
+                     </p>
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/JavaScript/"># JavaScript</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/09/09/vscode-extensions/">用于提高 Web 开发效率的 VSCode 扩展</a>
+            
+            
+            <a class="next" rel="next" href="/2019/09/03/a-byte-of-php-06-control-flow/">《简明 PHP 教程》06 流程控制</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 展小白 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

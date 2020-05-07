@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="description" content="互联网开发，个人技术随想。">
+
+
+    <meta name="keywords" content="展白，展小白，博客，技术，随想。">
+
+
+<title>GNU Screen 多会话管理工具 | 展小白的博客 | Zhan Xiaobai&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">展小白的博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">展小白的博客</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">展开目录</a>
+        <a onclick="go_top()">返回顶部</a>
+        <a onclick="go_bottom()">转到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "合并目录"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "展开目录"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">GNU Screen 多会话管理工具</h1>
+            
+                <div class="post-meta">
+                    
+                        作者: <a itemprop="author" rel="author" href="/">展小白</a>
+                    
+
+                    
+                        <span class="post-time">
+                        发布于: <a href="#">十一月 1, 2017&nbsp;&nbsp;6:12:10</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    分类:
+                            
+                                <a href="/categories/工具/">工具</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p><strong>GNU Screen</strong> 是一款由 GNU 计划开发的用于命令行终端切换的自由软件。用户可以通过该软件同时连接多个本地或远程的命令行会话，并在其间自由切换。</p>
+<h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><ul>
+<li>会话恢复</li>
+<li>多窗口</li>
+<li>会话共享</li>
+</ul>
+<h2 id="SIGHUP-信号"><a href="#SIGHUP-信号" class="headerlink" title="SIGHUP 信号"></a>SIGHUP 信号</h2><p>为什么关掉窗口/断开连接会使得正在运行的程序死掉？</p>
+<p>在 Linux/Unix 中，有这样几个概念：</p>
+<ul>
+<li>进程组（process group）：一个或多个进程的集合，每一个进程组有唯一一个进程组 ID，即进程组长进程的 ID。</li>
+<li>会话期（session）：一个或多个进程组的集合，有唯一一个会话期首进程（session leader）。会话期 ID 为首进程的 ID。</li>
+<li>会话期可以有一个单独的控制终端（controlling terminal）。与控制终端连接的会话期首进程叫做控制进程（controlling process）。当前与终端交互的进程称为前台进程组。其余进程组称为后台进程组。</li>
+</ul>
+<p>根据 POSIX.1 定义：</p>
+<ul>
+<li>挂断信号（SIGHUP）默认的动作是终止程序。</li>
+<li>当终端接口检测到网络连接断开，将挂断信号发送给控制进程（会话期首进程）。</li>
+<li>如果会话期首进程终止，则该信号发送到该会话期前台进程组。</li>
+<li>一个进程退出导致一个孤儿进程组中产生时，如果任意一个孤儿进程组进程处于 STOP 状态，发送 SIGHUP 和 SIGCONT 信号到该进程组中所有进程。</li>
+</ul>
+<p>因此当网络断开或终端窗口关闭后，控制进程收到 SIGHUP 信号退出，会导致该会话期内其他进程退出。</p>
+<h2 id="开始使用-Screen"><a href="#开始使用-Screen" class="headerlink" title="开始使用 Screen"></a>开始使用 Screen</h2><h3 id="创建一个新的窗口"><a href="#创建一个新的窗口" class="headerlink" title="创建一个新的窗口"></a>创建一个新的窗口</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ screen</span><br><span class="line">或</span><br><span class="line">$ screen vim test.c</span><br></pre></td></tr></table></figure>
+
+<p>在一个已有 screen 会话中创建新的窗口并且换到该窗口，键入 C-a c，即 Ctrl 键 + a 键，之后再按下 c 键。</p>
+<h3 id="会话恢复"><a href="#会话恢复" class="headerlink" title="会话恢复"></a>会话恢复</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ screen vim /tmp/abc</span><br></pre></td></tr></table></figure>
+
+<p>键入 C-a d 暂时中断会话。</p>
+<p>找到要恢复的会话：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ screen -ls</span><br><span class="line">There are screens on:</span><br><span class="line">	12036.ttys000.XIAOs-MacBook-Pro	(Detached)</span><br><span class="line">1 Sockets in /var/folders/ww/1wrvb8qj1bqg7181thcc9y980000gn/T/.screen.</span><br></pre></td></tr></table></figure>
+
+<p>重新连接会话：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ screen -r 12036</span><br></pre></td></tr></table></figure>
+
+<h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><p>默认情况下，screen 接收以 C-a 开始的命令。这种命令形式在 screen 中叫做键绑定（key binding），C-a 叫做命令字符（command character）。</p>
+<p>可以通过 C-a ? 来查看所有的键绑定，常用的键绑定有：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">C-a ?		显示所有键绑定信息</span><br><span class="line">C-a w		显示所有窗口列表</span><br><span class="line">C-a C-a		切换到之前显示的窗口</span><br><span class="line">C-a c		创建一个新的运行 shell 的窗口并切换到该窗口</span><br><span class="line">C-a n		切换到下一个窗口</span><br><span class="line">C-a p		切换到前一个窗口(与 C-a n 相对)</span><br><span class="line">C-a 0..9	切换到窗口 0..9</span><br><span class="line">C-a a		发送 C-a 到当前窗口</span><br><span class="line">C-a d		暂时断开 screen 会话</span><br><span class="line">C-a k		杀掉当前窗口</span><br><span class="line">C-a [		进入拷贝/回滚模式</span><br></pre></td></tr></table></figure>
+
+<p>如果一个会话死掉了，screen -ls 会显示该会话为 dead 状态，可以使用 screen -wipe 清除该会话。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>作者:</span>
+                        <span>展小白</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>永久链接:</span>
+                        <span><a href="https://blog.zhanxiaobai.com/2017/11/01/screen/">https://blog.zhanxiaobai.com/2017/11/01/screen/</a></span>
+                    </p>
+                
+                <!-- 
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span></span>
+                    </p>
+                 -->
+                
+                     <p class="copyright-item">
+                         <span>联系我:</span>
+                         <span>关注公众号「展白说」，获取更多有价值的信息。</span>
+                     </p>
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Linux/"># Linux</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2017/11/03/http-spdy/">HTTP/2 和 SPDY</a>
+            
+            
+            <a class="next" rel="next" href="/2017/10/30/vagrant/">Vagrant 的那些事儿</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 展小白 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

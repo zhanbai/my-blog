@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="description" content="互联网开发，个人技术随想。">
+
+
+    <meta name="keywords" content="展白，展小白，博客，技术，随想。">
+
+
+<title>Scrapy 一个简单、快速、可扩展的爬虫框架 | 展小白的博客 | Zhan Xiaobai&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">展小白的博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">展小白的博客</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">展开目录</a>
+        <a onclick="go_top()">返回顶部</a>
+        <a onclick="go_bottom()">转到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "合并目录"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "展开目录"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Scrapy 一个简单、快速、可扩展的爬虫框架</h1>
+            
+                <div class="post-meta">
+                    
+                        作者: <a itemprop="author" rel="author" href="/">展小白</a>
+                    
+
+                    
+                        <span class="post-time">
+                        发布于: <a href="#">十一月 13, 2017&nbsp;&nbsp;6:12:10</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    分类:
+                            
+                                <a href="/categories/技术/">技术</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>最近需要帮其他部门同事爬些数据，所以更加深入了解和使用了之前接触的一个爬虫框架，Scrapy。</p>
+<p>Scrapy 是一个由 Python 开发的简单、快速、可扩展，并且开源的爬虫框架。可以应用在包括数据挖掘，信息处理或存储历史数据等一系列的程序中。</p>
+<p>今天简单介绍下这个框架，也许哪一天你可能需要用到它。</p>
+<h2 id="通过一个例子来了解"><a href="#通过一个例子来了解" class="headerlink" title="通过一个例子来了解"></a>通过一个例子来了解</h2><p>为了展示 Scrapy 怎么获取你想要的数据，我们将通过一个简单的爬虫例子来说明。</p>
+<p>下面是一个爬虫的代码，获取博客 <a href="http://blog.zinaer.com/" target="_blank" rel="noopener">http://blog.zinaer.com</a> 文章的标题和发表时间：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">import scrapy</span><br><span class="line"></span><br><span class="line">class ZinaerBlogSpider(scrapy.Spider):</span><br><span class="line">    name = &apos;blog&apos;</span><br><span class="line">    start_urls = [</span><br><span class="line">        &apos;http://blog.zinaer.com&apos;</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    def parse(self, response):</span><br><span class="line">        for data in response.css(&apos;ul.post-list li&apos;):</span><br><span class="line">            yield &#123;</span><br><span class="line">                &apos;title&apos;: data.css(&apos;span.post-meta::text&apos;).extract_first(),</span><br><span class="line">                &apos;date&apos;: data.css(&apos;a.post-link::text&apos;).extract_first()</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+
+<p>将上述代码放到一个 python 文件中，保存为 blog_spider.py 并使用 <code>runspider</code> 命令执行它：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ scrapy runspider blog_spider.py -o blog.json</span><br></pre></td></tr></table></figure>
+
+<p>这样，博客里文章的标题和发表时间就会以 JSON 的格式保存下来。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">	&#123;</span><br><span class="line">        &quot;title&quot;:&quot;Nov 12, 2017&quot;,</span><br><span class="line">        &quot;date&quot;:&quot;Go 语言八周年&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;title&quot;:&quot;Nov 11, 2017&quot;,</span><br><span class="line">        &quot;date&quot;:&quot;人工智能领域最好的 5 种编程语言&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;title&quot;:&quot;Nov 10, 2017&quot;,</span><br><span class="line">        &quot;date&quot;:&quot;Github 欢迎所有 CI 工具&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;title&quot;:&quot;Nov 9, 2017&quot;,</span><br><span class="line">        &quot;date&quot;:&quot;几个掌握 CSS 网格布局的便捷资源&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">    	...</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;title&quot;:&quot;Oct 18, 2017&quot;,</span><br><span class="line">        &quot;date&quot;:&quot;为什么你需要另一款 Markdown 编辑器？&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;title&quot;:&quot;Oct 17, 2017&quot;,</span><br><span class="line">        &quot;date&quot;:&quot;WiFi WPA2 安全加密协议被破解，路由器等一大波设备可能沦陷？&quot;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h2 id="这其中发生了什么"><a href="#这其中发生了什么" class="headerlink" title="这其中发生了什么"></a>这其中发生了什么</h2><p>当你运行上述命令时，Scrapy 在程序中找到相关定义，并通过爬虫引擎运行它。</p>
+<p>抓取通过向 <code>start_urls</code> 属性中定义的 URL 发出请求，并调用默认的回调方法 parse, 将响应对象作为参数传递。在 <code>parse</code> 回调中，我们使用 CSS 选择器循环引用元素。</p>
+<p>你可以注意到 Scrapy 的一个主要优势，请求是异步调用和处理的。也就是说，不需要等待一个请求和处理完成，它可以发送另一个请求或者做其它事情。即使某些请求或处理失败，其它请求仍然会继续。</p>
+<p>虽然并发请求可以快速爬取相关内容，但是 Scrapy 还可以通过其它一些设置控制爬虫的行为，比如，在每个请求直接设置延迟，限制请求域或每个 IP 的并发数，甚至可以自动调节这些行为。</p>
+<p>上面的例子，导出了 JSON 文件，你也可以轻松导出其它格式，比如：XML 或 CSV 或者存储到后端以及数据库中。</p>
+<h2 id="还有什么"><a href="#还有什么" class="headerlink" title="还有什么"></a>还有什么</h2><p>你已经看到如何使用 Scrapy 从网站中提取和存储项目，这只是基础。Scrapy 提供了许多强大的功能，使得爬取数据更加简单和高效，比如：</p>
+<ul>
+<li>内置支持使用扩展 CSS 选择器和 XPath 表达式从 HTML/XML 选择和提取数据，使用正则表达式提取数据。</li>
+<li>交互式 shell 控制台，这个在尝试 CSS 和 XPath 来抓取数据，编写和调试的时候非常有用。</li>
+<li>内置支持多种格式输出，JSON, CSV, XML。并可以存储到多个后端，FTP，S3, 本地文件系统。</li>
+<li>强大的编码支持和自动检测，用于处理外部的，非标准的编码声明。</li>
+<li>强大的可扩展支持，允许你使用信号和定义良好的 API（中间件，扩展和管道）来增强自己的功能。</li>
+<li>广泛的内置扩展和中间件处理：cookies 和 session 处理；HTTP 功能，如压缩，身份验证，缓存；user-agent 模拟；robots.txt；爬虫深度限制等等。</li>
+<li>Telnet 控制台，用于连接运行着 Scrapy 进程的 Python 控制台，从而编译和调试你的爬虫。</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>作者:</span>
+                        <span>展小白</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>永久链接:</span>
+                        <span><a href="https://blog.zhanxiaobai.com/2017/11/13/scrapy/">https://blog.zhanxiaobai.com/2017/11/13/scrapy/</a></span>
+                    </p>
+                
+                <!-- 
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span></span>
+                    </p>
+                 -->
+                
+                     <p class="copyright-item">
+                         <span>联系我:</span>
+                         <span>关注公众号「展白说」，获取更多有价值的信息。</span>
+                     </p>
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/爬虫/"># 爬虫</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2017/11/18/tencent-360/">从《颠覆者》和 《腾讯传》看 3Q 大战</a>
+            
+            
+            <a class="next" rel="next" href="/2017/11/03/http-spdy/">HTTP/2 和 SPDY</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 展小白 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

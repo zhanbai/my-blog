@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="description" content="互联网开发，个人技术随想。">
+
+
+    <meta name="keywords" content="展白，展小白，博客，技术，随想。">
+
+
+<title>用于提高 Web 开发效率的 VSCode 扩展 | 展小白的博客 | Zhan Xiaobai&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">展小白的博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">展小白的博客</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">展开目录</a>
+        <a onclick="go_top()">返回顶部</a>
+        <a onclick="go_bottom()">转到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "合并目录"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "展开目录"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">用于提高 Web 开发效率的 VSCode 扩展</h1>
+            
+                <div class="post-meta">
+                    
+                        作者: <a itemprop="author" rel="author" href="/">展小白</a>
+                    
+
+                    
+                        <span class="post-time">
+                        发布于: <a href="#">九月 9, 2019&nbsp;&nbsp;18:54:21</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    分类:
+                            
+                                <a href="/categories/工具/">工具</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>你是否知道 Visual Studio Code 和 Visual Studio 的区别？简单点讲，Visual Studio 是一个大而全的开发工具集，而 Visual Studio Code 是一个开源的、跨平台的代码编辑器，目前已经很流行，尤其是在 Web 开发领域。它快速、可扩展、可定制，并且有大量功能。</p>
+<p>在 Web 开发方面，VSCode 是一个好用的编辑器，同时也有很多好用的扩展，推荐给有需要的你。</p>
+<h2 id="增加代码易读性的必备扩展"><a href="#增加代码易读性的必备扩展" class="headerlink" title="增加代码易读性的必备扩展"></a>增加代码易读性的必备扩展</h2><ol>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=CoenraadS.bracket-pair-colorizer-2" target="_blank" rel="noopener">Bracket Pair Colorizer 2</a> —— 通过颜色显示匹配到的括号。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=oderwat.indent-rainbow" target="_blank" rel="noopener">Indent Rainbow</a> —— 使用四种颜色交替显示缩进。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-close-tag" target="_blank" rel="noopener">AutoClose Tag</a> —— 自动添加 HTML/XML 闭合标签。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-rename-tag" target="_blank" rel="noopener">Auto Rename Tag</a> —— 自动修改 HTML/XML 闭合标签。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=SirTori.indenticator" target="_blank" rel="noopener">Indenticator</a> —— 突出的显示当前的缩进深度（尤其适合长代码块）。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=vscode-icons-team.vscode-icons" target="_blank" rel="noopener">VSCode Icons</a> — 文件/文件夹图标，使编辑器更漂亮。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=dracula-theme.theme-dracula" target="_blank" rel="noopener">Dracula</a> —— 一款非常漂亮的主题。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode" target="_blank" rel="noopener">Prettier</a> —— 一款通过解析代码实现代码格式化的工具。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=christian-kohler.path-intellisense" target="_blank" rel="noopener">Path Intellisense</a> —— 一款自动补全文件名的工具。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint" target="_blank" rel="noopener">ESLint</a> 或 <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-typescript-tslint-plugin" target="_blank" rel="noopener">TSLint</a> —— 代码检查工具，保障代码的一致性和避免 bugs。</li>
+</ol>
+<h2 id="一般性操作扩展"><a href="#一般性操作扩展" class="headerlink" title="一般性操作扩展"></a>一般性操作扩展</h2><ol>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker" target="_blank" rel="noopener">Code Spell Checker</a> —— 一个良好的基本拼写检查工具。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=wmaurer.change-case" target="_blank" rel="noopener">change-case</a> —— 快速更改选中单词的大小写。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=chrmarti.regex" target="_blank" rel="noopener">Regex Previewer</a> —— 正则表达式匹配并排文档的匹配项。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=ryu1kn.partial-diff" target="_blank" rel="noopener">Partial Diff</a> —— 比较同文件、不同文件或剪切板内容的不同。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=yassh.copy-with-line-numbers" target="_blank" rel="noopener">Copy With Line Numbers</a> —— 使用行号（和文件路径）复制选定的行。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=mushan.vscode-paste-image" target="_blank" rel="noopener">Paste Image</a> —— 直接粘贴图片到 markdown/asciidoc。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=andi1984.tinypng" target="_blank" rel="noopener">TinyPNG</a> —— 压缩 JPG/PNG 图片。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=pnp.polacode" target="_blank" rel="noopener">Polacode</a> —— 制作非常漂亮的代码快照。</li>
+</ol>
+<h2 id="调试扩展"><a href="#调试扩展" class="headerlink" title="调试扩展"></a>调试扩展</h2><ol>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=ChakrounAnas.turbo-console-log" target="_blank" rel="noopener">Turbo Console Log</a> —— 自动编写有意义的日志消息。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome" target="_blank" rel="noopener">Debugger for Chrome</a> —— 在 Chrome 浏览器或支持 Chrome Debugger 协议的任何其它工具中调试 JavaScript 代码。</li>
+</ol>
+<h2 id="版本控制扩展"><a href="#版本控制扩展" class="headerlink" title="版本控制扩展"></a>版本控制扩展</h2><ol>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens" target="_blank" rel="noopener">GitLens</a> —— 增强内置的 Git 工具。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=pflannery.vscode-versionlens" target="_blank" rel="noopener">Version Lens</a> —— 显示每个依赖包的最新版本。</li>
+</ol>
+<h2 id="Markdown-扩展"><a href="#Markdown-扩展" class="headerlink" title="Markdown 扩展"></a>Markdown 扩展</h2><ol>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=mdickin.markdown-shortcuts" target="_blank" rel="noopener">Markdown Shortcuts</a> —— 编辑 Markdown 快捷方式。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced" target="_blank" rel="noopener">Markdown Preview Enhanced</a> —— 强大的 Markdown 编辑器工具。</li>
+</ol>
+<h2 id="衡量日常生产力扩展"><a href="#衡量日常生产力扩展" class="headerlink" title="衡量日常生产力扩展"></a>衡量日常生产力扩展</h2><ol>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=WakaTime.vscode-wakatime" target="_blank" rel="noopener">WakaTime</a> —— 自动生成日常编码工作量图表统计。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=softwaredotcom.swdc-vscode" target="_blank" rel="noopener">Code Time</a> —— 开源插件，提供编程指标。</li>
+</ol>
+<h2 id="其它扩展"><a href="#其它扩展" class="headerlink" title="其它扩展"></a>其它扩展</h2><ol>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync" target="_blank" rel="noopener">Settings Sync</a> —— 使用 GitHub Gist 同步 VSCode 的配置。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=alefragnani.project-manager" target="_blank" rel="noopener">Project Manager</a> —— 轻松切换项目。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=WallabyJs.quokka-vscode" target="_blank" rel="noopener">Quokka.js</a> —— 运行 JavaScript 工具。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=wayou.vscode-todo-highlight" target="_blank" rel="noopener">TODO Highlight</a> —— 突出显示 TODO，FIXME 和其它注释。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=wix.vscode-import-cost" target="_blank" rel="noopener">Import Cost</a> —— 显示将要引入包的大小。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=humao.rest-client" target="_blank" rel="noopener">REST Client</a> —— 发送 HTTP 请求并查看响应结果。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer" target="_blank" rel="noopener">Live Server</a> —— 启动具有实时重载的本地开发服务器。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner" target="_blank" rel="noopener">Code Runner</a> —— 运行代码块，支持多种语言。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare" target="_blank" rel="noopener">Live Share</a> —— 协作编程工具。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=quicktype.quicktype" target="_blank" rel="noopener">Paste JSON as Code</a> —— 将 JSON 转换为其它语言的代码。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh" target="_blank" rel="noopener">Remote - SSH</a> —— 连接远程开发服务器进行编程。</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=EQuimper.react-native-react-redux" target="_blank" rel="noopener">React-Native/React/Redux snippets for es6/es7</a> —— 代码片段。</li>
+</ol>
+<p>以上，简单罗列了一些扩展名称和功能说明，具体详细的使用，参考具体扩展的文档。另外，根据你的需要选择安装和开启相关的扩展。如果你想了解更多的扩展，可以直接在 <a href="https://marketplace.visualstudio.com/" target="_blank" rel="noopener">VSCode 扩展市场</a>搜索。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>作者:</span>
+                        <span>展小白</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>永久链接:</span>
+                        <span><a href="https://blog.zhanxiaobai.com/2019/09/09/vscode-extensions/">https://blog.zhanxiaobai.com/2019/09/09/vscode-extensions/</a></span>
+                    </p>
+                
+                <!-- 
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span></span>
+                    </p>
+                 -->
+                
+                     <p class="copyright-item">
+                         <span>联系我:</span>
+                         <span>关注公众号「展白说」，获取更多有价值的信息。</span>
+                     </p>
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/开发/"># 开发</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">首页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/09/10/data-in-php-00-preface/">《数据结构与算法 PHP 语言描述》00 开篇</a>
+            
+            
+            <a class="next" rel="next" href="/2019/09/06/js-history/">JavaScript 是如何成长为一门广泛使用的编程语言</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 展小白 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
